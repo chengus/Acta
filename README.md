@@ -34,6 +34,22 @@ Logical types describe what values mean, while each block selects the most compa
 
 Encoded columns may then use a general-purpose compressor such as Zstandard. This per-block choice preserves a stable schema without forcing every block to use the same representation.
 
+## Row IDs
+
+Acta may assign an internal, monotonically increasing `uint64` ID to each row. This is useful when timestamps can repeat, producers can write identical records, or precise tombstones and future updates are needed.
+
+Row IDs are implicit rather than stored as a full column:
+
+```text
+row_id = block_base_id + row_offset
+```
+
+Each block stores one `base_row_id`. When a completed block is appended, it receives a contiguous global ID range. This provides stable unique IDs with minimal storage overhead and avoids writer-local or composite IDs. Row IDs are part of the format design but remain optional, internal, and not prominent in the v1 API.
+
+### Future mutations
+
+Deletion and updates may be added later as an intentionally expensive copy-on-write operation. Acta would copy unaffected compressed blocks, rewrite only affected blocks into a temporary file, preserve existing row IDs, then atomically replace the original file. Published blocks remain immutable; mutations create a new file generation and require an exclusive writer lock.
+
 ## Philosophy
 
 Acta prioritizes:
