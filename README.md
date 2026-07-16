@@ -18,6 +18,7 @@ Acta files use a fixed schema. The initial type system includes:
 - categorical strings
 - binary data
 - fixed-length binary data
+- NULL (for nullable columns)
 - etc
 
 Columns are non-nullable by default; nullable columns carry a validity bitmap. Values that do not match the declared type are rejected rather than silently changing the schema.
