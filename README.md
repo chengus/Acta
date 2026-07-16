@@ -6,7 +6,34 @@ Acta is a proposed append-only, strongly typed file format for time-series data.
 
 Producers collect rows in private buffers and encode them as immutable, compressed columnar blocks. Completed blocks are appended to the file with only brief coordination; their physical order does not need to match timestamp order. Readers use per-block metadata such as time bounds, row count, schema, and column statistics to skip irrelevant data, then merge matching blocks when ordered results are required.
 
-The schema defines logical types such as integers, timestamps, decimals, categorical strings, and binary values. Each block may choose an appropriate physical encoding, including delta, bit-packing, run-length, dictionary, or raw encoding, followed by general-purpose compression.
+## Data types and compression
+
+Acta files use a fixed schema. The initial type system includes:
+- `bool`
+- signed and unsigned integers
+- floating-point numbers
+- scaled decimals
+- timestamps
+- UTF-8 strings
+- categorical strings
+- binary data
+- fixed-length binary data
+- etc
+
+Columns are non-nullable by default; nullable columns carry a validity bitmap. Values that do not match the declared type are rejected rather than silently changing the schema.
+
+Logical types describe what values mean, while each block selects the most compact physical encoding for its actual data. Candidate encodings include:
+
+- **Bit packing** for integers with a small observed range
+- **Delta** and **delta-of-delta** for counters and timestamps
+- **Run-length** or **constant** encoding for repeated values
+- **Dictionary encoding** for low-cardinality strings and enums
+- **XOR encoding** for floating-point values
+- **Raw values** for data that does not benefit from a specialized encoding
+
+Encoded columns may then use a general-purpose compressor such as Zstandard. This per-block choice preserves a stable schema without forcing every block to use the same representation.
+
+## Philosophy
 
 Acta prioritizes:
 
