@@ -46,3 +46,8 @@ Acta prioritizes:
 Acta is not intended to provide transactions, in-place updates, rollback, or database-style recovery. The initial concurrency model is parallel buffering and compression with serialized appends of completed blocks; more advanced extent reservation can be added if benchmarks justify it.
 
 See [case studies](case_study/README.md) for comparisons with existing storage formats and databases.
+
+
+#### Why?
+
+<sup><sub>One day I'm working in this team that requires a plot of noisy time series data that will grow big enough to make me bankrupt from an aws bill. I started explore solutions: parquet file is awkward since it needs to be appended very fast while others are reading, sqlite not storage efficient enough, csv? wtf is wrong with you, i cba to deal with yet ANOTHER databse, let alone pay for one. Thus, I created Acta in agony. </sub></sup>
