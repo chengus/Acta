@@ -1,0 +1,863 @@
+{
+  "configuration": {
+    "dataset": "/tmp/acta-benchmark/yellow_tripdata_2026-01.parquet",
+    "rows_loaded": 65536,
+    "source_rows": 3724889,
+    "block_rows": 4096,
+    "blocks": 16,
+    "sampling": "evenly",
+    "sample_offsets": [
+      0,
+      248052,
+      496105,
+      744158,
+      992211,
+      1240264,
+      1488317,
+      1736370,
+      1984422,
+      2232475,
+      2480528,
+      2728581,
+      2976634,
+      3224687,
+      3472740,
+      3720793
+    ],
+    "zstd_level": 1,
+    "python": "3.13.4",
+    "platform": "macOS-15.6.1-arm64-arm-64bit-Mach-O",
+    "numpy": "2.5.1",
+    "pyarrow": "25.0.0",
+    "zstandard": "0.25.0"
+  },
+  "results": [
+    {
+      "name": "stored_and_forwarded",
+      "logical_type": "bool",
+      "rows": 65536,
+      "blocks": 16,
+      "raw_bytes": 8192,
+      "selected_bytes": 184,
+      "ratio_to_raw": 0.0224609375,
+      "selected": {
+        "rle+none": 10,
+        "constant+none": 6
+      },
+      "selected_encode_mib_s": 44.944898035382685,
+      "selected_decode_mib_s": 70.3562997264749,
+      "exhaustive_search_mib_s": 10.043917852801206,
+      "candidates": [
+        {
+          "encoding": "constant",
+          "encoded_bytes": 6,
+          "stored_bytes": 6,
+          "ratio_to_raw": 0.000732421875,
+          "codecs": {
+            "none": 6
+          }
+        },
+        {
+          "encoding": "rle",
+          "encoded_bytes": 226,
+          "stored_bytes": 226,
+          "ratio_to_raw": 0.027587890625,
+          "codecs": {
+            "none": 16
+          }
+        },
+        {
+          "encoding": "bitpack",
+          "encoded_bytes": 8192,
+          "stored_bytes": 427,
+          "ratio_to_raw": 0.0521240234375,
+          "codecs": {
+            "zstd": 16
+          }
+        }
+      ],
+      "note": "derived from Y/N flag"
+    },
+    {
+      "name": "zone_delta",
+      "logical_type": "int32",
+      "rows": 65536,
+      "blocks": 16,
+      "raw_bytes": 262144,
+      "selected_bytes": 76874,
+      "ratio_to_raw": 0.29325103759765625,
+      "selected": {
+        "delta+none": 6,
+        "frame_of_reference+none": 10
+      },
+      "selected_encode_mib_s": 155.00587381096238,
+      "selected_decode_mib_s": 214.98382583524605,
+      "exhaustive_search_mib_s": 16.78593852444591,
+      "candidates": [
+        {
+          "encoding": "frame_of_reference",
+          "encoded_bytes": 76880,
+          "stored_bytes": 76880,
+          "ratio_to_raw": 0.29327392578125,
+          "codecs": {
+            "none": 16
+          }
+        },
+        {
+          "encoding": "delta",
+          "encoded_bytes": 81984,
+          "stored_bytes": 81471,
+          "ratio_to_raw": 0.3107872009277344,
+          "codecs": {
+            "none": 10,
+            "zstd": 6
+          }
+        },
+        {
+          "encoding": "delta_of_delta",
+          "encoded_bytes": 90288,
+          "stored_bytes": 90288,
+          "ratio_to_raw": 0.34442138671875,
+          "codecs": {
+            "none": 16
+          }
+        },
+        {
+          "encoding": "dictionary",
+          "encoded_bytes": 101488,
+          "stored_bytes": 92960,
+          "ratio_to_raw": 0.3546142578125,
+          "codecs": {
+            "zstd": 16
+          }
+        },
+        {
+          "encoding": "raw",
+          "encoded_bytes": 262144,
+          "stored_bytes": 99729,
+          "ratio_to_raw": 0.3804359436035156,
+          "codecs": {
+            "zstd": 16
+          }
+        }
+      ],
+      "note": ""
+    },
+    {
+      "name": "pickup_zone",
+      "logical_type": "uint32",
+      "rows": 65536,
+      "blocks": 16,
+      "raw_bytes": 262144,
+      "selected_bytes": 60216,
+      "ratio_to_raw": 0.229705810546875,
+      "selected": {
+        "dictionary+zstd": 16
+      },
+      "selected_encode_mib_s": 166.37094619770542,
+      "selected_decode_mib_s": 219.0659241456912,
+      "exhaustive_search_mib_s": 18.15321264140351,
+      "candidates": [
+        {
+          "encoding": "dictionary",
+          "encoded_bytes": 72616,
+          "stored_bytes": 60216,
+          "ratio_to_raw": 0.229705810546875,
+          "codecs": {
+            "zstd": 16
+          }
+        },
+        {
+          "encoding": "frame_of_reference",
+          "encoded_bytes": 73808,
+          "stored_bytes": 72282,
+          "ratio_to_raw": 0.27573394775390625,
+          "codecs": {
+            "zstd": 11,
+            "none": 5
+          }
+        },
+        {
+          "encoding": "delta",
+          "encoded_bytes": 77376,
+          "stored_bytes": 75065,
+          "ratio_to_raw": 0.2863502502441406,
+          "codecs": {
+            "zstd": 16
+          }
+        },
+        {
+          "encoding": "raw",
+          "encoded_bytes": 262144,
+          "stored_bytes": 79096,
+          "ratio_to_raw": 0.301727294921875,
+          "codecs": {
+            "zstd": 16
+          }
+        },
+        {
+          "encoding": "delta_of_delta",
+          "encoded_bytes": 82096,
+          "stored_bytes": 82096,
+          "ratio_to_raw": 0.31317138671875,
+          "codecs": {
+            "none": 16
+          }
+        }
+      ],
+      "note": ""
+    },
+    {
+      "name": "passenger_count",
+      "logical_type": "int64",
+      "rows": 45056,
+      "blocks": 16,
+      "raw_bytes": 360448,
+      "selected_bytes": 8834,
+      "ratio_to_raw": 0.024508389559659092,
+      "selected": {
+        "delta+zstd": 11,
+        "raw+none": 5
+      },
+      "selected_encode_mib_s": 429.3451629512026,
+      "selected_decode_mib_s": 316.0439926419555,
+      "exhaustive_search_mib_s": 30.58127413537584,
+      "candidates": [
+        {
+          "encoding": "delta",
+          "encoded_bytes": 22627,
+          "stored_bytes": 8834,
+          "ratio_to_raw": 0.024508389559659092,
+          "codecs": {
+            "zstd": 11
+          }
+        },
+        {
+          "encoding": "frame_of_reference",
+          "encoded_bytes": 16995,
+          "stored_bytes": 9198,
+          "ratio_to_raw": 0.02551824396306818,
+          "codecs": {
+            "zstd": 11
+          }
+        },
+        {
+          "encoding": "dictionary",
+          "encoded_bytes": 17567,
+          "stored_bytes": 9434,
+          "ratio_to_raw": 0.026172984730113636,
+          "codecs": {
+            "zstd": 11
+          }
+        },
+        {
+          "encoding": "delta_of_delta",
+          "encoded_bytes": 28336,
+          "stored_bytes": 13321,
+          "ratio_to_raw": 0.036956787109375,
+          "codecs": {
+            "zstd": 11
+          }
+        },
+        {
+          "encoding": "rle",
+          "encoded_bytes": 108661,
+          "stored_bytes": 16162,
+          "ratio_to_raw": 0.04483864524147727,
+          "codecs": {
+            "zstd": 11
+          }
+        },
+        {
+          "encoding": "raw",
+          "encoded_bytes": 360448,
+          "stored_bytes": 18949,
+          "ratio_to_raw": 0.05257068980823864,
+          "codecs": {
+            "zstd": 11,
+            "none": 5
+          }
+        }
+      ],
+      "note": "dense non-null values; validity is reported separately"
+    },
+    {
+      "name": "trip_distance",
+      "logical_type": "float64",
+      "rows": 65536,
+      "blocks": 16,
+      "raw_bytes": 524288,
+      "selected_bytes": 112674,
+      "ratio_to_raw": 0.21490859985351562,
+      "selected": {
+        "dictionary+zstd": 16
+      },
+      "selected_encode_mib_s": 116.84323602091384,
+      "selected_decode_mib_s": 321.70686573744484,
+      "exhaustive_search_mib_s": 15.150844806162752,
+      "candidates": [
+        {
+          "encoding": "dictionary",
+          "encoded_bytes": 196040,
+          "stored_bytes": 112674,
+          "ratio_to_raw": 0.21490859985351562,
+          "codecs": {
+            "zstd": 16
+          }
+        },
+        {
+          "encoding": "raw",
+          "encoded_bytes": 524288,
+          "stored_bytes": 159788,
+          "ratio_to_raw": 0.30477142333984375,
+          "codecs": {
+            "zstd": 16
+          }
+        },
+        {
+          "encoding": "xor",
+          "encoded_bytes": 516128,
+          "stored_bytes": 321455,
+          "ratio_to_raw": 0.6131267547607422,
+          "codecs": {
+            "zstd": 16
+          }
+        },
+        {
+          "encoding": "byte_stream_split",
+          "encoded_bytes": 524288,
+          "stored_bytes": 334567,
+          "ratio_to_raw": 0.6381359100341797,
+          "codecs": {
+            "zstd": 16
+          }
+        }
+      ],
+      "note": ""
+    },
+    {
+      "name": "fare_cents",
+      "logical_type": "decimal64[scale=2]",
+      "rows": 65536,
+      "blocks": 16,
+      "raw_bytes": 524288,
+      "selected_bytes": 77666,
+      "ratio_to_raw": 0.14813613891601562,
+      "selected": {
+        "dictionary+zstd": 11,
+        "delta+none": 1,
+        "frame_of_reference+none": 4
+      },
+      "selected_encode_mib_s": 240.04313621975902,
+      "selected_decode_mib_s": 353.7419092555731,
+      "exhaustive_search_mib_s": 24.383006366224354,
+      "candidates": [
+        {
+          "encoding": "dictionary",
+          "encoded_bytes": 87452,
+          "stored_bytes": 49542,
+          "ratio_to_raw": 0.09449386596679688,
+          "codecs": {
+            "zstd": 12
+          }
+        },
+        {
+          "encoding": "frame_of_reference",
+          "encoded_bytes": 125072,
+          "stored_bytes": 105756,
+          "ratio_to_raw": 0.20171356201171875,
+          "codecs": {
+            "zstd": 11,
+            "none": 5
+          }
+        },
+        {
+          "encoding": "raw",
+          "encoded_bytes": 524288,
+          "stored_bytes": 107599,
+          "ratio_to_raw": 0.2052288055419922,
+          "codecs": {
+            "zstd": 16
+          }
+        },
+        {
+          "encoding": "delta",
+          "encoded_bytes": 130165,
+          "stored_bytes": 112487,
+          "ratio_to_raw": 0.2145519256591797,
+          "codecs": {
+            "zstd": 15,
+            "none": 1
+          }
+        },
+        {
+          "encoding": "delta_of_delta",
+          "encoded_bytes": 137937,
+          "stored_bytes": 125673,
+          "ratio_to_raw": 0.2397022247314453,
+          "codecs": {
+            "zstd": 15,
+            "none": 1
+          }
+        }
+      ],
+      "note": ""
+    },
+    {
+      "name": "pickup_time",
+      "logical_type": "timestamp64[us]",
+      "rows": 65536,
+      "blocks": 16,
+      "raw_bytes": 524288,
+      "selected_bytes": 258025,
+      "ratio_to_raw": 0.4921436309814453,
+      "selected": {
+        "frame_of_reference+zstd": 10,
+        "delta+zstd": 6
+      },
+      "selected_encode_mib_s": 109.21705015228552,
+      "selected_decode_mib_s": 158.20922793750913,
+      "exhaustive_search_mib_s": 15.076268089834153,
+      "candidates": [
+        {
+          "encoding": "frame_of_reference",
+          "encoded_bytes": 273552,
+          "stored_bytes": 259265,
+          "ratio_to_raw": 0.4945087432861328,
+          "codecs": {
+            "zstd": 16
+          }
+        },
+        {
+          "encoding": "delta",
+          "encoded_bytes": 274000,
+          "stored_bytes": 262921,
+          "ratio_to_raw": 0.5014820098876953,
+          "codecs": {
+            "zstd": 16
+          }
+        },
+        {
+          "encoding": "delta_of_delta",
+          "encoded_bytes": 279696,
+          "stored_bytes": 270405,
+          "ratio_to_raw": 0.5157566070556641,
+          "codecs": {
+            "zstd": 16
+          }
+        },
+        {
+          "encoding": "raw",
+          "encoded_bytes": 524288,
+          "stored_bytes": 278199,
+          "ratio_to_raw": 0.5306224822998047,
+          "codecs": {
+            "zstd": 16
+          }
+        }
+      ],
+      "note": ""
+    },
+    {
+      "name": "route",
+      "logical_type": "utf8",
+      "rows": 65536,
+      "blocks": 16,
+      "raw_bytes": 1412811,
+      "selected_bytes": 240933,
+      "ratio_to_raw": 0.1705344876278568,
+      "selected": {
+        "dictionary+zstd": 11,
+        "raw+zstd": 5
+      },
+      "selected_encode_mib_s": 110.91143286104754,
+      "selected_decode_mib_s": 176.58736220432826,
+      "exhaustive_search_mib_s": 40.259557123321606,
+      "candidates": [
+        {
+          "encoding": "dictionary",
+          "encoded_bytes": 462753,
+          "stored_bytes": 151410,
+          "ratio_to_raw": 0.1071693241346507,
+          "codecs": {
+            "zstd": 11
+          }
+        },
+        {
+          "encoding": "raw",
+          "encoded_bytes": 1412811,
+          "stored_bytes": 272507,
+          "ratio_to_raw": 0.19288284137085568,
+          "codecs": {
+            "zstd": 16
+          }
+        }
+      ],
+      "note": "derived from real pickup/dropoff zones"
+    },
+    {
+      "name": "payment",
+      "logical_type": "categorical",
+      "rows": 65536,
+      "blocks": 16,
+      "raw_bytes": 901452,
+      "selected_bytes": 5933,
+      "ratio_to_raw": 0.00658160390126152,
+      "selected": {
+        "dictionary+zstd": 11,
+        "constant+none": 5
+      },
+      "selected_encode_mib_s": 239.67905288122242,
+      "selected_decode_mib_s": 385.40408830695424,
+      "exhaustive_search_mib_s": 33.57728248953689,
+      "candidates": [
+        {
+          "encoding": "constant",
+          "encoded_bytes": 45,
+          "stored_bytes": 45,
+          "ratio_to_raw": 4.991946326593096e-05,
+          "codecs": {
+            "none": 5
+          }
+        },
+        {
+          "encoding": "dictionary",
+          "encoded_bytes": 11990,
+          "stored_bytes": 5998,
+          "ratio_to_raw": 0.0066537097926456425,
+          "codecs": {
+            "zstd": 11,
+            "none": 5
+          }
+        },
+        {
+          "encoding": "rle",
+          "encoded_bytes": 124905,
+          "stored_bytes": 12002,
+          "ratio_to_raw": 0.013314075513726743,
+          "codecs": {
+            "zstd": 11,
+            "none": 5
+          }
+        },
+        {
+          "encoding": "raw",
+          "encoded_bytes": 901452,
+          "stored_bytes": 31003,
+          "ratio_to_raw": 0.03439229154741461,
+          "codecs": {
+            "zstd": 16
+          }
+        }
+      ],
+      "note": ""
+    },
+    {
+      "name": "route_key",
+      "logical_type": "binary",
+      "rows": 65536,
+      "blocks": 16,
+      "raw_bytes": 851968,
+      "selected_bytes": 178949,
+      "ratio_to_raw": 0.21004192645733172,
+      "selected": {
+        "raw+zstd": 16
+      },
+      "selected_encode_mib_s": 67.05385662661581,
+      "selected_decode_mib_s": 132.26886455960275,
+      "exhaustive_search_mib_s": 31.21073570281684,
+      "candidates": [
+        {
+          "encoding": "dictionary",
+          "encoded_bytes": 214441,
+          "stored_bytes": 82304,
+          "ratio_to_raw": 0.0966045673076923,
+          "codecs": {
+            "zstd": 7
+          }
+        },
+        {
+          "encoding": "raw",
+          "encoded_bytes": 851968,
+          "stored_bytes": 178949,
+          "ratio_to_raw": 0.21004192645733172,
+          "codecs": {
+            "zstd": 16
+          }
+        }
+      ],
+      "note": ""
+    },
+    {
+      "name": "trip_id",
+      "logical_type": "fixed_binary[16]",
+      "rows": 65536,
+      "blocks": 16,
+      "raw_bytes": 1048576,
+      "selected_bytes": 1048576,
+      "ratio_to_raw": 1.0,
+      "selected": {
+        "raw+none": 16
+      },
+      "selected_encode_mib_s": 169.10393357003568,
+      "selected_decode_mib_s": 208.06786988218025,
+      "exhaustive_search_mib_s": 43.89053426307818,
+      "candidates": [
+        {
+          "encoding": "byte_stream_split",
+          "encoded_bytes": 1048576,
+          "stored_bytes": 1048576,
+          "ratio_to_raw": 1.0,
+          "codecs": {
+            "none": 16
+          }
+        },
+        {
+          "encoding": "raw",
+          "encoded_bytes": 1048576,
+          "stored_bytes": 1048576,
+          "ratio_to_raw": 1.0,
+          "codecs": {
+            "none": 16
+          }
+        }
+      ],
+      "note": ""
+    },
+    {
+      "name": "passenger_validity",
+      "logical_type": "bool",
+      "rows": 65536,
+      "blocks": 16,
+      "raw_bytes": 8192,
+      "selected_bytes": 16,
+      "ratio_to_raw": 0.001953125,
+      "selected": {
+        "constant+none": 16
+      },
+      "selected_encode_mib_s": 73.81063601662922,
+      "selected_decode_mib_s": 452.92566858454114,
+      "exhaustive_search_mib_s": 11.461596766992775,
+      "candidates": [
+        {
+          "encoding": "constant",
+          "encoded_bytes": 16,
+          "stored_bytes": 16,
+          "ratio_to_raw": 0.001953125,
+          "codecs": {
+            "none": 16
+          }
+        },
+        {
+          "encoding": "rle",
+          "encoded_bytes": 128,
+          "stored_bytes": 128,
+          "ratio_to_raw": 0.015625,
+          "codecs": {
+            "none": 16
+          }
+        },
+        {
+          "encoding": "bitpack",
+          "encoded_bytes": 8192,
+          "stored_bytes": 304,
+          "ratio_to_raw": 0.037109375,
+          "codecs": {
+            "zstd": 16
+          }
+        }
+      ],
+      "note": "NULL validity bitmap"
+    },
+    {
+      "name": "regular_sensor_time",
+      "logical_type": "timestamp64[us]",
+      "rows": 65536,
+      "blocks": 16,
+      "raw_bytes": 524288,
+      "selected_bytes": 1176,
+      "ratio_to_raw": 0.0022430419921875,
+      "selected": {
+        "delta+zstd": 1,
+        "delta_of_delta+zstd": 15
+      },
+      "selected_encode_mib_s": 207.61509801298814,
+      "selected_decode_mib_s": 190.98250222332894,
+      "exhaustive_search_mib_s": 22.23708949602784,
+      "candidates": [
+        {
+          "encoding": "delta_of_delta",
+          "encoded_bytes": 172224,
+          "stored_bytes": 1176,
+          "ratio_to_raw": 0.0022430419921875,
+          "codecs": {
+            "zstd": 16
+          }
+        },
+        {
+          "encoding": "delta",
+          "encoded_bytes": 180336,
+          "stored_bytes": 1279,
+          "ratio_to_raw": 0.0024394989013671875,
+          "codecs": {
+            "zstd": 16
+          }
+        },
+        {
+          "encoding": "raw",
+          "encoded_bytes": 524288,
+          "stored_bytes": 182927,
+          "ratio_to_raw": 0.3489055633544922,
+          "codecs": {
+            "zstd": 16
+          }
+        },
+        {
+          "encoding": "frame_of_reference",
+          "encoded_bytes": 262288,
+          "stored_bytes": 239830,
+          "ratio_to_raw": 0.4574394226074219,
+          "codecs": {
+            "zstd": 16
+          }
+        }
+      ],
+      "note": "controlled mostly-regular cadence"
+    },
+    {
+      "name": "monotonic_counter",
+      "logical_type": "uint64",
+      "rows": 65536,
+      "blocks": 16,
+      "raw_bytes": 524288,
+      "selected_bytes": 858,
+      "ratio_to_raw": 0.001636505126953125,
+      "selected": {
+        "delta_of_delta+zstd": 16
+      },
+      "selected_encode_mib_s": 422.8108168677353,
+      "selected_decode_mib_s": 357.7284889225344,
+      "exhaustive_search_mib_s": 44.44081817483336,
+      "candidates": [
+        {
+          "encoding": "delta_of_delta",
+          "encoded_bytes": 16656,
+          "stored_bytes": 858,
+          "ratio_to_raw": 0.001636505126953125,
+          "codecs": {
+            "zstd": 16
+          }
+        },
+        {
+          "encoding": "delta",
+          "encoded_bytes": 24720,
+          "stored_bytes": 1497,
+          "ratio_to_raw": 0.0028553009033203125,
+          "codecs": {
+            "zstd": 16
+          }
+        },
+        {
+          "encoding": "raw",
+          "encoded_bytes": 524288,
+          "stored_bytes": 67762,
+          "ratio_to_raw": 0.12924575805664062,
+          "codecs": {
+            "zstd": 16
+          }
+        },
+        {
+          "encoding": "frame_of_reference",
+          "encoded_bytes": 106640,
+          "stored_bytes": 106640,
+          "ratio_to_raw": 0.203399658203125,
+          "codecs": {
+            "none": 16
+          }
+        }
+      ],
+      "note": "controlled increments of one or two"
+    },
+    {
+      "name": "smooth_sensor",
+      "logical_type": "float64",
+      "rows": 65536,
+      "blocks": 16,
+      "raw_bytes": 524288,
+      "selected_bytes": 410708,
+      "ratio_to_raw": 0.7833633422851562,
+      "selected": {
+        "byte_stream_split+zstd": 16
+      },
+      "selected_encode_mib_s": 115.68376871552726,
+      "selected_decode_mib_s": 724.594571235401,
+      "exhaustive_search_mib_s": 20.4706907081214,
+      "candidates": [
+        {
+          "encoding": "byte_stream_split",
+          "encoded_bytes": 524288,
+          "stored_bytes": 410708,
+          "ratio_to_raw": 0.7833633422851562,
+          "codecs": {
+            "zstd": 16
+          }
+        },
+        {
+          "encoding": "xor",
+          "encoded_bytes": 524304,
+          "stored_bytes": 457450,
+          "ratio_to_raw": 0.8725166320800781,
+          "codecs": {
+            "zstd": 16
+          }
+        },
+        {
+          "encoding": "raw",
+          "encoded_bytes": 524288,
+          "stored_bytes": 499282,
+          "ratio_to_raw": 0.9523048400878906,
+          "codecs": {
+            "zstd": 16
+          }
+        }
+      ],
+      "note": "controlled smooth signal with noise"
+    },
+    {
+      "name": "sparse_validity",
+      "logical_type": "bool",
+      "rows": 65536,
+      "blocks": 16,
+      "raw_bytes": 8192,
+      "selected_bytes": 543,
+      "ratio_to_raw": 0.0662841796875,
+      "selected": {
+        "rle+zstd": 16
+      },
+      "selected_encode_mib_s": 45.088111932746294,
+      "selected_decode_mib_s": 45.14860506882571,
+      "exhaustive_search_mib_s": 10.31865502488643,
+      "candidates": [
+        {
+          "encoding": "rle",
+          "encoded_bytes": 1447,
+          "stored_bytes": 543,
+          "ratio_to_raw": 0.0662841796875,
+          "codecs": {
+            "zstd": 16
+          }
+        },
+        {
+          "encoding": "bitpack",
+          "encoded_bytes": 8192,
+          "stored_bytes": 1536,
+          "ratio_to_raw": 0.1875,
+          "codecs": {
+            "zstd": 16
+          }
+        }
+      ],
+      "note": "controlled isolated and burst NULL pattern"
+    }
+  ]
+}

@@ -29,10 +29,14 @@ Logical types describe what values mean, while each block selects the most compa
 - **Delta** and **delta-of-delta** for counters and timestamps
 - **Run-length** or **constant** encoding for repeated values
 - **Dictionary encoding** for low-cardinality strings and enums
-- **XOR encoding** for floating-point values
+- **Byte-stream split** for floating-point values before general compression
 - **Raw values** for data that does not benefit from a specialized encoding
 
 Encoded columns may then use a general-purpose compressor such as Zstandard. This per-block choice preserves a stable schema without forcing every block to use the same representation.
+
+XOR/Gorilla float encoding was evaluated for the experimental v0.1 design but
+is deferred until it demonstrates a consistent advantage over raw,
+dictionary, and byte-stream-split representations.
 
 ## Row IDs
 
@@ -61,6 +65,14 @@ Acta prioritizes:
 5. Multiple concurrent producers
 
 Acta is not intended to provide transactions, in-place updates, rollback, or database-style recovery. The initial concurrency model is parallel buffering and compression with serialized appends of completed blocks; more advanced extent reservation can be added if benchmarks justify it.
+
+## Experimental specification
+
+The initial binary design is documented in [Acta file format v0.1](spec/format_v0.md).
+It is accompanied by an executable [framing and recovery probe](spec/format_probe.py),
+a [minimal binary fixture](spec/fixtures/minimal.acta), and a reproducible
+[encoding study](benchmarks/README.md). These artifacts are experimental and do
+not carry a compatibility promise before v1.
 
 See [case studies](case_study/README.md) for comparisons with existing storage formats and databases.
 
