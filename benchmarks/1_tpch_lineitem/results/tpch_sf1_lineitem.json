@@ -1,0 +1,958 @@
+{
+  "configuration": {
+    "database": "/tmp/acta-benchmark/tpch_sf1/tpch-sf1.db",
+    "rows": 6001215,
+    "columns": 16,
+    "row_groups": 92,
+    "block_rows": 65536,
+    "sample_blocks": 8,
+    "sample_row_group_indices": [
+      0,
+      13,
+      26,
+      39,
+      52,
+      65,
+      78,
+      91
+    ],
+    "duckdb": "1.5.4",
+    "pyarrow": "25.0.0",
+    "numpy": "2.5.1"
+  },
+  "compression": {
+    "canonical_raw_bytes": 916854302,
+    "parquet_unsorted_bytes": 158738306,
+    "parquet_unsorted_ratio": 0.17313362183471545,
+    "parquet_sorted_bytes": 147092375,
+    "parquet_sorted_ratio": 0.16043156985699566,
+    "acta_estimated_full_bytes": 129740563,
+    "acta_sample_ratio": 0.14150619453444027,
+    "sample_raw_bytes": 75805374,
+    "sample_acta_bytes": 10726930,
+    "sample_parquet_none_bytes": 32139520,
+    "sample_parquet_none_ratio": 0.4239741630982521,
+    "sample_parquet_zstd_bytes": 14905561,
+    "sample_parquet_zstd_ratio": 0.1966293445105884,
+    "parquet_unsorted_write_ms": 899.4238750310615,
+    "parquet_sorted_write_ms": 1683.2315410138108,
+    "sample_none_write_ms": 214.43116600858048,
+    "sample_zstd_write_ms": 319.89708298351616
+  },
+  "search": {
+    "rows": 6001215,
+    "query_lower_us": 803520000000000,
+    "query_upper_us": 806112000000000,
+    "matching_rows": 74959,
+    "row_groups_total": 92,
+    "unsorted_groups_touched": 92,
+    "sorted_groups_touched": 2,
+    "unsorted_projected_bytes": 32273566,
+    "sorted_projected_bytes": 477367,
+    "parquet_unsorted_ms": 33.73874997487292,
+    "parquet_sorted_ms": 3.414958016946912,
+    "raw_projection_bytes": 144029160,
+    "raw_scan_ms": 13.540042040403932,
+    "raw_bisect_ms": 0.10599999222904444
+  },
+  "columns": [
+    {
+      "name": "l_orderkey",
+      "logical_type": "int64",
+      "rows": 496191,
+      "blocks": 8,
+      "raw_bytes": 3969528,
+      "selected_bytes": 973206,
+      "ratio_to_raw": 0.24516919895765946,
+      "selected": {
+        "delta+zstd": 8
+      },
+      "selected_encode_mib_s": 108.29239880759243,
+      "selected_decode_mib_s": 85.95060125076354,
+      "exhaustive_search_mib_s": 13.062981828493195,
+      "candidates": [
+        {
+          "encoding": "dictionary",
+          "encoded_bytes": 378533,
+          "stored_bytes": 177019,
+          "ratio_to_raw": 0.04459447067762212,
+          "codecs": {
+            "zstd": 1
+          }
+        },
+        {
+          "encoding": "delta",
+          "encoded_bytes": 1488621,
+          "stored_bytes": 973206,
+          "ratio_to_raw": 0.24516919895765946,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "delta_of_delta",
+          "encoded_bytes": 1488661,
+          "stored_bytes": 1068737,
+          "ratio_to_raw": 0.26923528439653277,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "raw",
+          "encoded_bytes": 3969528,
+          "stored_bytes": 1070687,
+          "ratio_to_raw": 0.26972652668025016,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "frame_of_reference",
+          "encoded_bytes": 1426622,
+          "stored_bytes": 1426622,
+          "ratio_to_raw": 0.3593933586058594,
+          "codecs": {
+            "none": 8
+          }
+        }
+      ],
+      "note": ""
+    },
+    {
+      "name": "l_partkey",
+      "logical_type": "int64",
+      "rows": 496191,
+      "blocks": 8,
+      "raw_bytes": 3969528,
+      "selected_bytes": 1116502,
+      "ratio_to_raw": 0.28126820115640955,
+      "selected": {
+        "frame_of_reference+none": 8
+      },
+      "selected_encode_mib_s": 110.25782415534908,
+      "selected_decode_mib_s": 170.97665029067105,
+      "exhaustive_search_mib_s": 16.611101910099343,
+      "candidates": [
+        {
+          "encoding": "frame_of_reference",
+          "encoded_bytes": 1116502,
+          "stored_bytes": 1116502,
+          "ratio_to_raw": 0.28126820115640955,
+          "codecs": {
+            "none": 8
+          }
+        },
+        {
+          "encoding": "delta",
+          "encoded_bytes": 1178510,
+          "stored_bytes": 1178510,
+          "ratio_to_raw": 0.2968892019403818,
+          "codecs": {
+            "none": 8
+          }
+        },
+        {
+          "encoding": "delta_of_delta",
+          "encoded_bytes": 1240574,
+          "stored_bytes": 1240574,
+          "ratio_to_raw": 0.312524310195066,
+          "codecs": {
+            "none": 8
+          }
+        },
+        {
+          "encoding": "raw",
+          "encoded_bytes": 3969528,
+          "stored_bytes": 1534934,
+          "ratio_to_raw": 0.38667922231560026,
+          "codecs": {
+            "zstd": 8
+          }
+        }
+      ],
+      "note": ""
+    },
+    {
+      "name": "l_suppkey",
+      "logical_type": "int64",
+      "rows": 496191,
+      "blocks": 8,
+      "raw_bytes": 3969528,
+      "selected_bytes": 868407,
+      "ratio_to_raw": 0.21876832711596947,
+      "selected": {
+        "frame_of_reference+none": 8
+      },
+      "selected_encode_mib_s": 126.15628704856383,
+      "selected_decode_mib_s": 136.51486839037625,
+      "exhaustive_search_mib_s": 13.106638778973933,
+      "candidates": [
+        {
+          "encoding": "frame_of_reference",
+          "encoded_bytes": 868407,
+          "stored_bytes": 868407,
+          "ratio_to_raw": 0.21876832711596947,
+          "codecs": {
+            "none": 8
+          }
+        },
+        {
+          "encoding": "raw",
+          "encoded_bytes": 3969528,
+          "stored_bytes": 923598,
+          "ratio_to_raw": 0.23267199525988985,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "delta",
+          "encoded_bytes": 930422,
+          "stored_bytes": 930422,
+          "ratio_to_raw": 0.23439109133378075,
+          "codecs": {
+            "none": 8
+          }
+        },
+        {
+          "encoding": "dictionary",
+          "encoded_bytes": 1505719,
+          "stored_bytes": 954608,
+          "ratio_to_raw": 0.24048400716659513,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "delta_of_delta",
+          "encoded_bytes": 992486,
+          "stored_bytes": 963096,
+          "ratio_to_raw": 0.24262229665592483,
+          "codecs": {
+            "zstd": 8
+          }
+        }
+      ],
+      "note": ""
+    },
+    {
+      "name": "l_linenumber",
+      "logical_type": "int64",
+      "rows": 496191,
+      "blocks": 8,
+      "raw_bytes": 3969528,
+      "selected_bytes": 170433,
+      "ratio_to_raw": 0.04293533135425673,
+      "selected": {
+        "frame_of_reference+zstd": 8
+      },
+      "selected_encode_mib_s": 193.77889676294015,
+      "selected_decode_mib_s": 155.2010078681063,
+      "exhaustive_search_mib_s": 16.38320399940765,
+      "candidates": [
+        {
+          "encoding": "frame_of_reference",
+          "encoded_bytes": 186144,
+          "stored_bytes": 170433,
+          "ratio_to_raw": 0.04293533135425673,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "dictionary",
+          "encoded_bytes": 186560,
+          "stored_bytes": 170557,
+          "ratio_to_raw": 0.042966569325118754,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "delta",
+          "encoded_bytes": 248167,
+          "stored_bytes": 199565,
+          "ratio_to_raw": 0.05027423915387421,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "delta_of_delta",
+          "encoded_bytes": 310248,
+          "stored_bytes": 284624,
+          "ratio_to_raw": 0.07170222756962541,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "raw",
+          "encoded_bytes": 3969528,
+          "stored_bytes": 288804,
+          "ratio_to_raw": 0.07275524949061954,
+          "codecs": {
+            "zstd": 8
+          }
+        }
+      ],
+      "note": ""
+    },
+    {
+      "name": "l_quantity",
+      "logical_type": "decimal64[scale=2]",
+      "rows": 496191,
+      "blocks": 8,
+      "raw_bytes": 3969528,
+      "selected_bytes": 375384,
+      "ratio_to_raw": 0.09456640688767028,
+      "selected": {
+        "dictionary+none": 8
+      },
+      "selected_encode_mib_s": 131.14935361953417,
+      "selected_decode_mib_s": 195.49954181711263,
+      "exhaustive_search_mib_s": 14.05442798744819,
+      "candidates": [
+        {
+          "encoding": "dictionary",
+          "encoded_bytes": 375384,
+          "stored_bytes": 375384,
+          "ratio_to_raw": 0.09456640688767028,
+          "codecs": {
+            "none": 8
+          }
+        },
+        {
+          "encoding": "frame_of_reference",
+          "encoded_bytes": 806383,
+          "stored_bytes": 738319,
+          "ratio_to_raw": 0.18599667265226497,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "raw",
+          "encoded_bytes": 3969528,
+          "stored_bytes": 746221,
+          "ratio_to_raw": 0.1879873375373596,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "delta",
+          "encoded_bytes": 868398,
+          "stored_bytes": 797468,
+          "ratio_to_raw": 0.20089743667257165,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "delta_of_delta",
+          "encoded_bytes": 930470,
+          "stored_bytes": 885733,
+          "ratio_to_raw": 0.22313307778657815,
+          "codecs": {
+            "zstd": 8
+          }
+        }
+      ],
+      "note": ""
+    },
+    {
+      "name": "l_extendedprice",
+      "logical_type": "decimal64[scale=2]",
+      "rows": 496191,
+      "blocks": 8,
+      "raw_bytes": 3969528,
+      "selected_bytes": 1488645,
+      "ratio_to_raw": 0.37501813817662955,
+      "selected": {
+        "frame_of_reference+none": 8
+      },
+      "selected_encode_mib_s": 91.15740389293248,
+      "selected_decode_mib_s": 102.28168135596978,
+      "exhaustive_search_mib_s": 12.404315665461565,
+      "candidates": [
+        {
+          "encoding": "frame_of_reference",
+          "encoded_bytes": 1488645,
+          "stored_bytes": 1488645,
+          "ratio_to_raw": 0.37501813817662955,
+          "codecs": {
+            "none": 8
+          }
+        },
+        {
+          "encoding": "delta",
+          "encoded_bytes": 1550645,
+          "stored_bytes": 1550645,
+          "ratio_to_raw": 0.390637123607643,
+          "codecs": {
+            "none": 8
+          }
+        },
+        {
+          "encoding": "raw",
+          "encoded_bytes": 3969528,
+          "stored_bytes": 1586403,
+          "ratio_to_raw": 0.39964524749542013,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "delta_of_delta",
+          "encoded_bytes": 1612709,
+          "stored_bytes": 1612709,
+          "ratio_to_raw": 0.4062722318623272,
+          "codecs": {
+            "none": 8
+          }
+        }
+      ],
+      "note": ""
+    },
+    {
+      "name": "l_discount",
+      "logical_type": "decimal64[scale=2]",
+      "rows": 496191,
+      "blocks": 8,
+      "raw_bytes": 3969528,
+      "selected_bytes": 215528,
+      "ratio_to_raw": 0.05429562406412047,
+      "selected": {
+        "frame_of_reference+zstd": 8
+      },
+      "selected_encode_mib_s": 205.94744812704852,
+      "selected_decode_mib_s": 182.8122037185255,
+      "exhaustive_search_mib_s": 18.92477407378694,
+      "candidates": [
+        {
+          "encoding": "frame_of_reference",
+          "encoded_bytes": 248168,
+          "stored_bytes": 215528,
+          "ratio_to_raw": 0.05429562406412047,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "dictionary",
+          "encoded_bytes": 248840,
+          "stored_bytes": 215958,
+          "ratio_to_raw": 0.05440394928565814,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "delta",
+          "encoded_bytes": 310191,
+          "stored_bytes": 288044,
+          "ratio_to_raw": 0.0725637909595297,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "raw",
+          "encoded_bytes": 3969528,
+          "stored_bytes": 332529,
+          "ratio_to_raw": 0.08377041300628185,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "delta_of_delta",
+          "encoded_bytes": 372271,
+          "stored_bytes": 340386,
+          "ratio_to_raw": 0.08574974153098303,
+          "codecs": {
+            "zstd": 8
+          }
+        }
+      ],
+      "note": ""
+    },
+    {
+      "name": "l_tax",
+      "logical_type": "decimal64[scale=2]",
+      "rows": 496191,
+      "blocks": 8,
+      "raw_bytes": 3969528,
+      "selected_bytes": 198988,
+      "ratio_to_raw": 0.05012888182171785,
+      "selected": {
+        "frame_of_reference+zstd": 8
+      },
+      "selected_encode_mib_s": 217.73678114944738,
+      "selected_decode_mib_s": 276.85512043659685,
+      "exhaustive_search_mib_s": 21.20232346017218,
+      "candidates": [
+        {
+          "encoding": "frame_of_reference",
+          "encoded_bytes": 248168,
+          "stored_bytes": 198988,
+          "ratio_to_raw": 0.05012888182171785,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "dictionary",
+          "encoded_bytes": 248712,
+          "stored_bytes": 199492,
+          "ratio_to_raw": 0.050255849058124795,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "delta",
+          "encoded_bytes": 310191,
+          "stored_bytes": 278952,
+          "ratio_to_raw": 0.07027334232180753,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "raw",
+          "encoded_bytes": 3969528,
+          "stored_bytes": 308213,
+          "ratio_to_raw": 0.07764474768788632,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "delta_of_delta",
+          "encoded_bytes": 372271,
+          "stored_bytes": 329138,
+          "ratio_to_raw": 0.08291615527085336,
+          "codecs": {
+            "zstd": 8
+          }
+        }
+      ],
+      "note": ""
+    },
+    {
+      "name": "l_returnflag",
+      "logical_type": "categorical",
+      "rows": 496191,
+      "blocks": 8,
+      "raw_bytes": 2480955,
+      "selected_bytes": 32848,
+      "ratio_to_raw": 0.013240062798398197,
+      "selected": {
+        "dictionary+none": 4,
+        "constant+none": 4
+      },
+      "selected_encode_mib_s": 74.18659089047489,
+      "selected_decode_mib_s": 241.320115200409,
+      "exhaustive_search_mib_s": 14.690035830525797,
+      "candidates": [
+        {
+          "encoding": "constant",
+          "encoded_bytes": 4,
+          "stored_bytes": 4,
+          "ratio_to_raw": 1.6122823670723573e-06,
+          "codecs": {
+            "none": 4
+          }
+        },
+        {
+          "encoding": "rle",
+          "encoded_bytes": 184171,
+          "stored_bytes": 13072,
+          "ratio_to_raw": 0.0052689387755924634,
+          "codecs": {
+            "zstd": 1,
+            "none": 4
+          }
+        },
+        {
+          "encoding": "dictionary",
+          "encoded_bytes": 32900,
+          "stored_bytes": 32900,
+          "ratio_to_raw": 0.013261022469170138,
+          "codecs": {
+            "none": 8
+          }
+        },
+        {
+          "encoding": "raw",
+          "encoded_bytes": 2480955,
+          "stored_bytes": 50448,
+          "ratio_to_raw": 0.02033410521351657,
+          "codecs": {
+            "zstd": 8
+          }
+        }
+      ],
+      "note": ""
+    },
+    {
+      "name": "l_linestatus",
+      "logical_type": "categorical",
+      "rows": 496191,
+      "blocks": 8,
+      "raw_bytes": 2480955,
+      "selected_bytes": 8,
+      "ratio_to_raw": 3.2245647341447145e-06,
+      "selected": {
+        "constant+none": 8
+      },
+      "selected_encode_mib_s": 111.8914027423096,
+      "selected_decode_mib_s": 1339.1618081598403,
+      "exhaustive_search_mib_s": 15.286283483626727,
+      "candidates": [
+        {
+          "encoding": "constant",
+          "encoded_bytes": 8,
+          "stored_bytes": 8,
+          "ratio_to_raw": 3.2245647341447145e-06,
+          "codecs": {
+            "none": 8
+          }
+        },
+        {
+          "encoding": "dictionary",
+          "encoded_bytes": 112,
+          "stored_bytes": 112,
+          "ratio_to_raw": 4.5143906278026005e-05,
+          "codecs": {
+            "none": 8
+          }
+        },
+        {
+          "encoding": "rle",
+          "encoded_bytes": 135,
+          "stored_bytes": 135,
+          "ratio_to_raw": 5.441452988869206e-05,
+          "codecs": {
+            "none": 8
+          }
+        },
+        {
+          "encoding": "raw",
+          "encoded_bytes": 2480955,
+          "stored_bytes": 320,
+          "ratio_to_raw": 0.00012898258936578857,
+          "codecs": {
+            "zstd": 8
+          }
+        }
+      ],
+      "note": ""
+    },
+    {
+      "name": "l_shipinstruct",
+      "logical_type": "categorical",
+      "rows": 496191,
+      "blocks": 8,
+      "raw_bytes": 7939741,
+      "selected_bytes": 124632,
+      "ratio_to_raw": 0.015697237479157064,
+      "selected": {
+        "dictionary+none": 8
+      },
+      "selected_encode_mib_s": 147.96439682332345,
+      "selected_decode_mib_s": 291.48815065762756,
+      "exhaustive_search_mib_s": 36.13928538491702,
+      "candidates": [
+        {
+          "encoding": "dictionary",
+          "encoded_bytes": 124632,
+          "stored_bytes": 124632,
+          "ratio_to_raw": 0.015697237479157064,
+          "codecs": {
+            "none": 8
+          }
+        },
+        {
+          "encoding": "raw",
+          "encoded_bytes": 7939741,
+          "stored_bytes": 753447,
+          "ratio_to_raw": 0.09489566473264052,
+          "codecs": {
+            "zstd": 8
+          }
+        }
+      ],
+      "note": ""
+    },
+    {
+      "name": "l_shipmode",
+      "logical_type": "categorical",
+      "rows": 496191,
+      "blocks": 8,
+      "raw_bytes": 4111588,
+      "selected_bytes": 186608,
+      "ratio_to_raw": 0.04538587037417173,
+      "selected": {
+        "dictionary+none": 8
+      },
+      "selected_encode_mib_s": 78.85556398531908,
+      "selected_decode_mib_s": 128.91110052101402,
+      "exhaustive_search_mib_s": 19.079815318109645,
+      "candidates": [
+        {
+          "encoding": "dictionary",
+          "encoded_bytes": 186608,
+          "stored_bytes": 186608,
+          "ratio_to_raw": 0.04538587037417173,
+          "codecs": {
+            "none": 8
+          }
+        },
+        {
+          "encoding": "raw",
+          "encoded_bytes": 4111588,
+          "stored_bytes": 657479,
+          "ratio_to_raw": 0.15990877490643518,
+          "codecs": {
+            "zstd": 8
+          }
+        }
+      ],
+      "note": ""
+    },
+    {
+      "name": "l_shipdate",
+      "logical_type": "timestamp64[us]",
+      "rows": 496191,
+      "blocks": 8,
+      "raw_bytes": 3969528,
+      "selected_bytes": 2292,
+      "ratio_to_raw": 0.0005773986227077879,
+      "selected": {
+        "delta+zstd": 5,
+        "rle+zstd": 3
+      },
+      "selected_encode_mib_s": 113.36971489500088,
+      "selected_decode_mib_s": 102.8916550845537,
+      "exhaustive_search_mib_s": 9.210350930445292,
+      "candidates": [
+        {
+          "encoding": "delta",
+          "encoded_bytes": 2356947,
+          "stored_bytes": 2300,
+          "ratio_to_raw": 0.0005794139756666284,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "rle",
+          "encoded_bytes": 2904,
+          "stored_bytes": 2419,
+          "ratio_to_raw": 0.00060939235092938,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "delta_of_delta",
+          "encoded_bytes": 2356971,
+          "stored_bytes": 2483,
+          "ratio_to_raw": 0.0006255151746001036,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "raw",
+          "encoded_bytes": 3969528,
+          "stored_bytes": 2804,
+          "ratio_to_raw": 0.0007063812120735765,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "dictionary",
+          "encoded_bytes": 333648,
+          "stored_bytes": 4231,
+          "ratio_to_raw": 0.0010658697961067412,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "frame_of_reference",
+          "encoded_bytes": 2617947,
+          "stored_bytes": 7120,
+          "ratio_to_raw": 0.0017936641333679974,
+          "codecs": {
+            "zstd": 8
+          }
+        }
+      ],
+      "note": ""
+    },
+    {
+      "name": "l_commitdate",
+      "logical_type": "timestamp64[us]",
+      "rows": 496191,
+      "blocks": 8,
+      "raw_bytes": 3969528,
+      "selected_bytes": 465082,
+      "ratio_to_raw": 0.11716304810042907,
+      "selected": {
+        "dictionary+zstd": 7,
+        "dictionary+none": 1
+      },
+      "selected_encode_mib_s": 75.07600733028566,
+      "selected_decode_mib_s": 196.18933871000257,
+      "exhaustive_search_mib_s": 7.048851711686917,
+      "candidates": [
+        {
+          "encoding": "dictionary",
+          "encoded_bytes": 503336,
+          "stored_bytes": 465082,
+          "ratio_to_raw": 0.11716304810042907,
+          "codecs": {
+            "zstd": 7,
+            "none": 1
+          }
+        },
+        {
+          "encoding": "raw",
+          "encoded_bytes": 3969528,
+          "stored_bytes": 806962,
+          "ratio_to_raw": 0.20328915679647555,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "frame_of_reference",
+          "encoded_bytes": 2737315,
+          "stored_bytes": 1336469,
+          "ratio_to_raw": 0.3366820941935666,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "delta",
+          "encoded_bytes": 2791106,
+          "stored_bytes": 1772053,
+          "ratio_to_raw": 0.4464140320965112,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "delta_of_delta",
+          "encoded_bytes": 2848467,
+          "stored_bytes": 1806509,
+          "ratio_to_raw": 0.455094157290237,
+          "codecs": {
+            "zstd": 8
+          }
+        }
+      ],
+      "note": ""
+    },
+    {
+      "name": "l_receiptdate",
+      "logical_type": "timestamp64[us]",
+      "rows": 496191,
+      "blocks": 8,
+      "raw_bytes": 3969528,
+      "selected_bytes": 383172,
+      "ratio_to_raw": 0.09652835299310145,
+      "selected": {
+        "dictionary+none": 1,
+        "dictionary+zstd": 7
+      },
+      "selected_encode_mib_s": 80.3484690138611,
+      "selected_decode_mib_s": 162.58650599643104,
+      "exhaustive_search_mib_s": 7.206217642797386,
+      "candidates": [
+        {
+          "encoding": "dictionary",
+          "encoded_bytes": 389328,
+          "stored_bytes": 383172,
+          "ratio_to_raw": 0.09652835299310145,
+          "codecs": {
+            "none": 1,
+            "zstd": 7
+          }
+        },
+        {
+          "encoding": "raw",
+          "encoded_bytes": 3969528,
+          "stored_bytes": 638620,
+          "ratio_to_raw": 0.16088058832183574,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "frame_of_reference",
+          "encoded_bytes": 2675291,
+          "stored_bytes": 861685,
+          "ratio_to_raw": 0.21707492679230378,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "delta_of_delta",
+          "encoded_bytes": 2729099,
+          "stored_bytes": 974391,
+          "ratio_to_raw": 0.2454677231146877,
+          "codecs": {
+            "zstd": 8
+          }
+        },
+        {
+          "encoding": "delta",
+          "encoded_bytes": 2667059,
+          "stored_bytes": 1068019,
+          "ratio_to_raw": 0.26905440646847684,
+          "codecs": {
+            "zstd": 8
+          }
+        }
+      ],
+      "note": ""
+    },
+    {
+      "name": "l_comment",
+      "logical_type": "utf8",
+      "rows": 496191,
+      "blocks": 8,
+      "raw_bytes": 15127327,
+      "selected_bytes": 4125195,
+      "ratio_to_raw": 0.27269821033154107,
+      "selected": {
+        "raw+zstd": 8
+      },
+      "selected_encode_mib_s": 61.793460070578824,
+      "selected_decode_mib_s": 208.4232237755614,
+      "exhaustive_search_mib_s": 46.98502765599211,
+      "candidates": [
+        {
+          "encoding": "raw",
+          "encoded_bytes": 15127327,
+          "stored_bytes": 4125195,
+          "ratio_to_raw": 0.27269821033154107,
+          "codecs": {
+            "zstd": 8
+          }
+        }
+      ],
+      "note": ""
+    }
+  ]
+}

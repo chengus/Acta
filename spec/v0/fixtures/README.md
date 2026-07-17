@@ -17,7 +17,7 @@ SHA-256:
 Regenerate and validate it from the repository root:
 
 ```bash
-uv run spec/format_probe.py --write-fixture spec/fixtures/minimal.acta
+uv run spec/v0/format_probe.py --write-fixture spec/v0/fixtures/minimal.acta
 ```
 
 The generator tests every possible truncation point inside the final frame and

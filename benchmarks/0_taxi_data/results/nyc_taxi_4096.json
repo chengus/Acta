@@ -44,9 +44,9 @@
         "rle+none": 10,
         "constant+none": 6
       },
-      "selected_encode_mib_s": 44.944898035382685,
-      "selected_decode_mib_s": 70.3562997264749,
-      "exhaustive_search_mib_s": 10.043917852801206,
+      "selected_encode_mib_s": 47.55067360166077,
+      "selected_decode_mib_s": 72.33862075693284,
+      "exhaustive_search_mib_s": 8.911583734484223,
       "candidates": [
         {
           "encoding": "constant",
@@ -90,9 +90,9 @@
         "delta+none": 6,
         "frame_of_reference+none": 10
       },
-      "selected_encode_mib_s": 155.00587381096238,
-      "selected_decode_mib_s": 214.98382583524605,
-      "exhaustive_search_mib_s": 16.78593852444591,
+      "selected_encode_mib_s": 128.57208053284793,
+      "selected_decode_mib_s": 203.0598826025998,
+      "exhaustive_search_mib_s": 13.883586126376823,
       "candidates": [
         {
           "encoding": "frame_of_reference",
@@ -154,9 +154,9 @@
       "selected": {
         "dictionary+zstd": 16
       },
-      "selected_encode_mib_s": 166.37094619770542,
-      "selected_decode_mib_s": 219.0659241456912,
-      "exhaustive_search_mib_s": 18.15321264140351,
+      "selected_encode_mib_s": 166.39862772738144,
+      "selected_decode_mib_s": 214.1408151861945,
+      "exhaustive_search_mib_s": 17.63113823771897,
       "candidates": [
         {
           "encoding": "dictionary",
@@ -219,9 +219,9 @@
         "delta+zstd": 11,
         "raw+none": 5
       },
-      "selected_encode_mib_s": 429.3451629512026,
-      "selected_decode_mib_s": 316.0439926419555,
-      "exhaustive_search_mib_s": 30.58127413537584,
+      "selected_encode_mib_s": 401.5611111789821,
+      "selected_decode_mib_s": 302.37480081320336,
+      "exhaustive_search_mib_s": 28.94544046871618,
       "candidates": [
         {
           "encoding": "delta",
@@ -292,9 +292,9 @@
       "selected": {
         "dictionary+zstd": 16
       },
-      "selected_encode_mib_s": 116.84323602091384,
-      "selected_decode_mib_s": 321.70686573744484,
-      "exhaustive_search_mib_s": 15.150844806162752,
+      "selected_encode_mib_s": 112.89356761888439,
+      "selected_decode_mib_s": 291.1279420117528,
+      "exhaustive_search_mib_s": 14.609932077874566,
       "candidates": [
         {
           "encoding": "dictionary",
@@ -348,9 +348,9 @@
         "delta+none": 1,
         "frame_of_reference+none": 4
       },
-      "selected_encode_mib_s": 240.04313621975902,
-      "selected_decode_mib_s": 353.7419092555731,
-      "exhaustive_search_mib_s": 24.383006366224354,
+      "selected_encode_mib_s": 199.6636124126848,
+      "selected_decode_mib_s": 358.9913791680355,
+      "exhaustive_search_mib_s": 22.144469515577715,
       "candidates": [
         {
           "encoding": "dictionary",
@@ -415,9 +415,9 @@
         "frame_of_reference+zstd": 10,
         "delta+zstd": 6
       },
-      "selected_encode_mib_s": 109.21705015228552,
-      "selected_decode_mib_s": 158.20922793750913,
-      "exhaustive_search_mib_s": 15.076268089834153,
+      "selected_encode_mib_s": 115.4211886046937,
+      "selected_decode_mib_s": 142.63137449206903,
+      "exhaustive_search_mib_s": 15.333681208833662,
       "candidates": [
         {
           "encoding": "frame_of_reference",
@@ -470,9 +470,9 @@
         "dictionary+zstd": 11,
         "raw+zstd": 5
       },
-      "selected_encode_mib_s": 110.91143286104754,
-      "selected_decode_mib_s": 176.58736220432826,
-      "exhaustive_search_mib_s": 40.259557123321606,
+      "selected_encode_mib_s": 116.83253503514287,
+      "selected_decode_mib_s": 182.19485805905967,
+      "exhaustive_search_mib_s": 41.640659214499195,
       "candidates": [
         {
           "encoding": "dictionary",
@@ -507,9 +507,9 @@
         "dictionary+zstd": 11,
         "constant+none": 5
       },
-      "selected_encode_mib_s": 239.67905288122242,
-      "selected_decode_mib_s": 385.40408830695424,
-      "exhaustive_search_mib_s": 33.57728248953689,
+      "selected_encode_mib_s": 232.7668851764836,
+      "selected_decode_mib_s": 379.89026216906706,
+      "exhaustive_search_mib_s": 32.38706266560722,
       "candidates": [
         {
           "encoding": "constant",
@@ -563,9 +563,9 @@
       "selected": {
         "raw+zstd": 16
       },
-      "selected_encode_mib_s": 67.05385662661581,
-      "selected_decode_mib_s": 132.26886455960275,
-      "exhaustive_search_mib_s": 31.21073570281684,
+      "selected_encode_mib_s": 67.47111609794952,
+      "selected_decode_mib_s": 140.71298386166666,
+      "exhaustive_search_mib_s": 31.56519907290063,
       "candidates": [
         {
           "encoding": "dictionary",
@@ -599,9 +599,9 @@
       "selected": {
         "raw+none": 16
       },
-      "selected_encode_mib_s": 169.10393357003568,
-      "selected_decode_mib_s": 208.06786988218025,
-      "exhaustive_search_mib_s": 43.89053426307818,
+      "selected_encode_mib_s": 167.96668806091023,
+      "selected_decode_mib_s": 214.40639464078774,
+      "exhaustive_search_mib_s": 43.700410728229315,
       "candidates": [
         {
           "encoding": "byte_stream_split",
@@ -635,9 +635,9 @@
       "selected": {
         "constant+none": 16
       },
-      "selected_encode_mib_s": 73.81063601662922,
-      "selected_decode_mib_s": 452.92566858454114,
-      "exhaustive_search_mib_s": 11.461596766992775,
+      "selected_encode_mib_s": 75.2210815385219,
+      "selected_decode_mib_s": 473.48625413187426,
+      "exhaustive_search_mib_s": 11.439192571268391,
       "candidates": [
         {
           "encoding": "constant",
@@ -681,9 +681,9 @@
         "delta+zstd": 1,
         "delta_of_delta+zstd": 15
       },
-      "selected_encode_mib_s": 207.61509801298814,
-      "selected_decode_mib_s": 190.98250222332894,
-      "exhaustive_search_mib_s": 22.23708949602784,
+      "selected_encode_mib_s": 224.56250412888366,
+      "selected_decode_mib_s": 169.1211122717576,
+      "exhaustive_search_mib_s": 23.34548662781814,
       "candidates": [
         {
           "encoding": "delta_of_delta",
@@ -735,9 +735,9 @@
       "selected": {
         "delta_of_delta+zstd": 16
       },
-      "selected_encode_mib_s": 422.8108168677353,
-      "selected_decode_mib_s": 357.7284889225344,
-      "exhaustive_search_mib_s": 44.44081817483336,
+      "selected_encode_mib_s": 490.88283718953835,
+      "selected_decode_mib_s": 393.4560564638933,
+      "exhaustive_search_mib_s": 49.670723053200604,
       "candidates": [
         {
           "encoding": "delta_of_delta",
@@ -789,9 +789,9 @@
       "selected": {
         "byte_stream_split+zstd": 16
       },
-      "selected_encode_mib_s": 115.68376871552726,
-      "selected_decode_mib_s": 724.594571235401,
-      "exhaustive_search_mib_s": 20.4706907081214,
+      "selected_encode_mib_s": 120.95157414110562,
+      "selected_decode_mib_s": 815.7179110131398,
+      "exhaustive_search_mib_s": 22.027040113127637,
       "candidates": [
         {
           "encoding": "byte_stream_split",
@@ -834,9 +834,9 @@
       "selected": {
         "rle+zstd": 16
       },
-      "selected_encode_mib_s": 45.088111932746294,
-      "selected_decode_mib_s": 45.14860506882571,
-      "exhaustive_search_mib_s": 10.31865502488643,
+      "selected_encode_mib_s": 42.262977342069675,
+      "selected_decode_mib_s": 43.54355126348836,
+      "exhaustive_search_mib_s": 9.774775655924985,
       "candidates": [
         {
           "encoding": "rle",

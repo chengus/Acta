@@ -68,10 +68,10 @@ Acta is not intended to provide transactions, in-place updates, rollback, or dat
 
 ## Experimental specification
 
-The initial binary design is documented in [Acta file format v0.1](spec/format_v0.md).
-It is accompanied by an executable [framing and recovery probe](spec/format_probe.py),
-a [minimal binary fixture](spec/fixtures/minimal.acta), and a reproducible
-[encoding study](benchmarks/README.md). These artifacts are experimental and do
+The initial binary design is documented in [Acta file format v0.1](spec/v0/format_v0.md).
+It is accompanied by an executable [framing and recovery probe](spec/v0/format_probe.py),
+a [minimal binary fixture](spec/v0/fixtures/minimal.acta), and reproducible
+[encoding benchmarks](benchmarks/README.md). These artifacts are experimental and do
 not carry a compatibility promise before v1.
 
 See [case studies](case_study/README.md) for comparisons with existing storage formats and databases.

@@ -21,6 +21,40 @@ from 65K to 262K improved it by less than 1% relative while quadrupling the
 buffering, interrupted-tail, and minimum decode granularity. The initial writer
 should therefore target 65,536 rows, subject to a separate encoded-byte cap.
 
+## Raw and Parquet comparison
+
+An apples-to-apples comparison used the same 262,144 rows, eleven logical
+columns, nullable passenger-count validity, and 65,536-row grouping.
+
+| Representation | Bytes | Canonical-raw ratio |
+| --- | ---: | ---: |
+| Canonical raw | 26,881,642 | 1.000 |
+| Parquet without a compression codec | 10,046,870 | 0.374 |
+| Parquet + Zstd level 1 | 8,378,042 | 0.312 |
+| Acta selected streams + Zstd | 7,647,041 | 0.284 |
+
+The Acta stream estimate was 8.7% smaller than the complete Parquet+Zstd file
+on this sample. This is promising but not a product-level win: Acta excludes
+common frame/schema/CRC metadata, chooses exhaustively among candidate streams,
+and has no complete writer. Parquet is a complete interoperable file produced
+by a mature implementation. “Parquet without compression” still benefits from
+Parquet encodings such as dictionary and run-length encoding, so it is not the
+same as canonical raw bytes.
+
+For a one-hour pickup-time query across all 3,724,889 source rows:
+
+| Layout | Groups touched | Projected bytes | Warm median |
+| --- | ---: | ---: | ---: |
+| Parquet, time-local 65K groups | 1 / 57 | 308,228 compressed | 3.0 ms |
+| Parquet, source-like order | 3 / 57 | 1,434,851 compressed | 3.1 ms |
+| Raw fixed-width timestamp scan | all rows | about 29.8 MB timestamps | 3.2 ms |
+| Raw globally sorted bisection | matching range | about 59 KB values | 0.04 ms |
+
+The query matched 7,369 rows. Acta's mandatory block time bounds would select
+the same single block in the time-local case, but no Acta query latency is
+reported until a real reader exists. The warm-cache timings mostly measure
+fixed execution overhead; the bytes touched are the stronger pruning signal.
+
 ## Encoding findings at 65,536 rows
 
 | Data shape | Best observed choice | Result |

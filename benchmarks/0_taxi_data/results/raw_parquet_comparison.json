@@ -1,0 +1,28 @@
+{
+  "configuration": {
+    "compression_rows": 262144,
+    "compression_columns": 11,
+    "block_rows": 65536,
+    "search_rows": 3724889,
+    "search_window_seconds": 3600,
+    "search_matching_rows": 7369,
+    "timing": "warm-cache median"
+  },
+  "compression": {
+    "canonical_raw_bytes": 26881642,
+    "parquet_without_codec_bytes": 10046870,
+    "parquet_zstd_level_1_bytes": 8378042,
+    "acta_selected_stream_bytes": 7647041
+  },
+  "search": {
+    "row_groups_total": 57,
+    "time_local_groups_touched": 1,
+    "source_order_groups_touched": 3,
+    "time_local_projected_compressed_bytes": 308228,
+    "source_order_projected_compressed_bytes": 1434851,
+    "parquet_time_local_ms": 3.012,
+    "parquet_source_order_ms": 3.120,
+    "raw_full_timestamp_scan_ms": 3.237,
+    "raw_sorted_bisection_ms": 0.041
+  }
+}

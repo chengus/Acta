@@ -2,7 +2,7 @@
 
 ## 1. Define the format
 
-- Iterate on the experimental [v0.1 binary design](spec/format_v0.md) using the
+- Iterate on the experimental [v0.1 binary design](spec/v0/format_v0.md) using the
   checked-in framing probe, fixture, and encoding study.
 - Specify the file header, schema, block metadata, column layout, and versioning rules.
 - Define supported logical types, nullability, encodings, checksums, and incomplete-block handling.
