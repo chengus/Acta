@@ -8,6 +8,9 @@
 - one uncompressed data frame containing timestamp values 1,000,000,
   2,000,000, and 3,000,000.
 
+See [minimal.md](minimal.md) for a byte-by-byte annotation of the prologue,
+schema frame, data frame, stored values, checksums, and recovery behavior.
+
 SHA-256:
 
 ```text
