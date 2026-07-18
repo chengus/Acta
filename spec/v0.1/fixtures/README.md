@@ -94,3 +94,38 @@ a decreasing block that declares the flag, accepts the same values with the
 flag clear, rejects declared bounds that are not the first and last row
 values, checks every truncation point inside the data frame, and confirms
 that flipping the flag bit or a payload byte fails CRC validation.
+
+## `date32` primary-column fixture
+
+`date32.acta` is a deterministic 592-byte file exercising logical type 18,
+`date32`, as the primary timestamp column. It is a minimal end-of-day series
+containing:
+
+- the 64-byte v0.1 prologue with file ID `ACTA-DATE32-EOD!`;
+- one schema frame with a non-nullable `date32` primary column named `date`
+  and a `float64` column named `close`; and
+- one uncompressed three-row data frame with `TS_SORTED` set, covering
+  2026-01-02, 2026-01-05, and 2026-01-06 — a weekend gap in the calendar —
+  with the day counts sign-extended to `int64` in the block-header bounds.
+
+See [date32.md](date32/date32.md) for the schema and data-frame annotation
+and the validation rules the fixture exercises.
+
+SHA-256:
+
+```text
+fb1ff4fe5b7f6d00c54f3240cada2020061982bbff85010896268a513cba2303
+```
+
+Regenerate and semantically validate it from the repository root:
+
+```bash
+uv run spec/v0.1/fixtures/date32/date32.py \
+  --output spec/v0.1/fixtures/date32/date32.acta \
+  --markdown-output spec/v0.1/fixtures/date32/date32.md
+```
+
+The generator's self-test applies the `TS_SORTED` rules to the day counts,
+verifies the `close` min/max statistics, checks every truncation point inside
+the data frame, and confirms that flipping the `date32` type ID, the block
+flag bit, or a stored day-count byte fails CRC validation.

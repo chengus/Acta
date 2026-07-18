@@ -10,6 +10,8 @@
 - [x] Define a data-block flag declaring that primary timestamps are
   monotonically nondecreasing within the block, including validation rules and
   a compatibility fixture.
+- [x] Define a `date32` logical type for calendar dates, including its use as
+  the primary time column and a compatibility fixture.
 
 ## 2. Build the C++ core
 

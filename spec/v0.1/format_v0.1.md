@@ -63,6 +63,7 @@ Type IDs are stable within format major version 0.
 | 15 | `categorical` | UTF-8 byte sequence | ordered flag |
 | 16 | `binary` | arbitrary byte sequence | none |
 | 17 | `fixed_binary` | fixed-width byte sequence | byte width |
+| 18 | `date32` | signed 32-bit day count from Unix epoch | none |
 
 `NULL` is not a separate stored type. Nullability is a column property, and a
 nullable block carries a validity stream. Values are dense: the values streams
@@ -80,6 +81,11 @@ zero means null. This makes an all-null block require no values stream.
 - `categorical`: `ordered` is `0` or `1`. Dictionaries remain block-local;
   dictionary indices have no meaning outside their block.
 - `fixed_binary`: width is an unsigned 32-bit integer greater than zero.
+
+`date32` counts calendar days from the Unix epoch day, so day zero is
+`1970-01-01` and negative values are earlier dates. A date is timezone-free
+and has no sub-day component; it is a calendar identity, not an instant, and
+is never converted through a timezone.
 
 UTF-8 column names, timezone names, and `utf8` or `categorical` values MUST be
 well-formed UTF-8. Readers MUST preserve exact floating-point bits, including
@@ -212,7 +218,11 @@ eight-byte boundary.
 
 Column IDs MUST be unique and nonzero. Names MUST be unique. Column flag bit 0
 means nullable; all other bits are zero. Exactly one column ID MUST match the
-primary timestamp ID, and that column MUST have type `timestamp64`.
+primary timestamp ID, and that column MUST have type `timestamp64` or
+`date32`. A `date32` primary column serves daily and end-of-day series whose
+natural time axis is a calendar date. The column is called the primary
+timestamp column throughout this document regardless of which of the two
+types it has, and every primary-timestamp rule applies to it unchanged.
 
 Type-parameter records are:
 
@@ -243,7 +253,9 @@ The first 64 header bytes are the block header.
 | 60 | 4 | reserved |
 
 The schema ID and column count MUST match the schema frame. Timestamp bounds
-are calculated over non-null values. The primary timestamp column MUST be
+are calculated over non-null values. When the primary column has type
+`date32`, the bounds are its day counts sign-extended to `int64`, and
+`TS_SORTED` below claims nondecreasing day counts the same way. The primary timestamp column MUST be
 non-nullable, so every nonempty block has valid bounds. An empty data block is
 invalid.
 
@@ -431,7 +443,7 @@ Boolean min and max are each stored as one byte with value zero or one.
 The primary timestamp min/max in the block header is the complete mandatory
 pruning statistic; it need not be repeated in that column's optional statistics
 area. Implementations MAY write kind-one statistics for other numeric, decimal,
-timestamp, boolean, or fixed-binary columns.
+timestamp, date, boolean, or fixed-binary columns.
 
 ## 12. Encoding selection
 
@@ -443,6 +455,7 @@ Encoding selection is per column per block. It does not alter the schema.
 | signed/unsigned integer | constant, raw, FOR, delta, delta-of-delta, dictionary, RLE | small ranges, counters, repeated codes |
 | `decimal64` | integer candidates | repeated currency values and bounded ranges |
 | `timestamp64` | raw, FOR, delta, delta-of-delta | ordered or regular event time |
+| `date32` | integer candidates | trading calendars, daily and end-of-day series |
 | float | constant, raw, dictionary, RLE, byte-stream split | repeated values or smooth signals before Zstandard |
 | `utf8`/`binary` | constant, plain, dictionary, RLE | repeated messages, routes, identifiers |
 | `categorical` | constant, dictionary, RLE; plain fallback | low-cardinality labels |
