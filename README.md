@@ -1,33 +1,35 @@
 # Acta
 
-Acta is a proposed append-only, strongly typed file format for time-series data. It is designed for fast sequential ingestion, compact storage, concurrent readers, and efficient time-range queries—all in one file.
+Acta is a append-only, strongly typed file format for time-series data. It is designed for fast sequential ingestion, compact storage, concurrent readers, and efficient time-range queries—all in one file.
 
 ## Design
 
-Producers collect rows in private buffers and encode them as immutable, compressed columnar blocks. Completed blocks are appended to the file with only brief coordination; their physical order does not need to match timestamp order. Readers use per-block metadata such as time bounds, row count, schema, and column statistics to skip irrelevant data, then merge matching blocks when ordered results are required.
+Producers collect rows in private buffers and encode them as immutable, compressed columnar blocks. Completed blocks are appended to the file with only brief coordination; their physical order does not need to match timestamp order. Each file has one required primary time column, typed as either a timestamp or a calendar date, and every block records that column's min/max bounds. A block whose primary timestamps are already nondecreasing can declare it with a `TS_SORTED` flag, letting readers binary-search within the block and merge sorted blocks without re-sorting. Readers use per-block metadata such as time bounds, row count, schema, and column statistics to skip irrelevant data, then merge matching blocks when ordered results are required.
+
+There is no mutable file footer. Every frame is self-delimiting and ends in a checksummed commit trailer, so a reader discovers new blocks by continuing from the byte after the last complete frame—concurrent tailing needs no coordination with the writer. After an interrupted append, recovery validates checksums and truncates to the last complete frame; per-stream CRCs let projected reads verify only the bytes they actually touch.
 
 ## Data types and compression
 
-Acta files use a fixed schema. The initial type system includes:
+Acta files use a fixed schema. The v0.1 type system includes:
 - `bool`
-- signed and unsigned integers
-- floating-point numbers
-- scaled decimals
-- timestamps
+- signed and unsigned integers (8, 16, 32, and 64 bit)
+- `float32` and `float64`
+- `decimal64` scaled decimals
+- `timestamp64` with a unit and timezone parameter
+- `date32` calendar dates, for daily and end-of-day series
 - UTF-8 strings
-- categorical strings
-- binary data
-- fixed-length binary data
-- NULL (for nullable columns)
-- etc
+- categorical strings with block-local dictionaries
+- variable- and fixed-length binary data
 
-Columns are non-nullable by default; nullable columns carry a validity bitmap. Values that do not match the declared type are rejected rather than silently changing the schema.
+NULL is not a stored type: nullability is a column property, and a nullable column carries a validity bitmap while its value streams stay dense. Columns are non-nullable by default. Values that do not match the declared type are rejected rather than silently changing the schema.
 
 Logical types describe what values mean, while each block selects the most compact physical encoding for its actual data. Candidate encodings include:
 
 - **Bit packing** for integers with a small observed range
+- **Frame of reference** for integers clustered in a narrow band
 - **Delta** and **delta-of-delta** for counters and timestamps
 - **Run-length** or **constant** encoding for repeated values
+- **Boolean RLE** for flags and validity bitmaps with long runs
 - **Dictionary encoding** for low-cardinality strings and enums
 - **Byte-stream split** for floating-point values before general compression
 - **Raw values** for data that does not benefit from a specialized encoding
@@ -70,9 +72,10 @@ Acta is not intended to provide transactions, in-place updates, rollback, or dat
 
 The initial binary design is documented in [Acta file format v0.1](spec/v0.1/format_v0.1.md).
 It is accompanied by an executable [framing and recovery probe](spec/v0.1/format_probe.py),
-[binary compatibility fixtures](spec/v0.1/fixtures/README.md), and reproducible
-[encoding benchmarks](benchmarks/v0.1/README.md). These artifacts are experimental and do
-not carry a compatibility promise before v1.
+deterministic [binary compatibility fixtures](spec/v0.1/fixtures/README.md) covering minimal
+framing, a multi-column real-data block, the `TS_SORTED` flag, and a `date32` primary column,
+and reproducible [encoding benchmarks](benchmarks/v0.1/README.md). These artifacts are
+experimental and do not carry a compatibility promise before v1.
 
 See [case studies](case_study/README.md) for comparisons with existing storage formats and databases.
 
