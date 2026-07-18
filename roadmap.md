@@ -1,12 +1,15 @@
 # Pre-alpha roadmap
 
-## 1. Define the format — complete
+## 1. Define the format — in progress
 
-- [x] Iterate on the experimental [v0.1 binary design](spec/v0.1/format_v0.md) using the
+- [x] Iterate on the experimental [v0.1 binary design](spec/v0.1/format_v0.1.md) using the
   checked-in framing probe, fixture, and encoding study.
 - [x] Specify the file header, schema, block metadata, column layout, and versioning rules.
 - [x] Define supported logical types, nullability, encodings, checksums, and incomplete-block handling.
 - [x] Publish small binary fixtures for compatibility testing.
+- [ ] Define a data-block flag declaring that primary timestamps are
+  monotonically nondecreasing within the block, including validation rules and
+  a compatibility fixture.
 
 ## 2. Build the C++ core
 
