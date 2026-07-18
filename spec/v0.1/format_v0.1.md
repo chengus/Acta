@@ -245,10 +245,35 @@ The first 64 header bytes are the block header.
 The schema ID and column count MUST match the schema frame. Timestamp bounds
 are calculated over non-null values. The primary timestamp column MUST be
 non-nullable, so every nonempty block has valid bounds. An empty data block is
-invalid. Block flag bit 0 means row IDs are enabled; all other bits are zero.
-The block flag MUST match the file's `ROW_IDS` feature. When enabled, the first
-data block has base row ID zero and every subsequent base equals the preceding
-base plus its row count. When disabled, every base row ID is `UINT64_MAX`.
+invalid.
+
+Block flag bit 0 is `ROW_IDS` and bit 1 is `TS_SORTED`; all other bits are
+zero. The `ROW_IDS` block flag MUST match the file's `ROW_IDS` feature. When
+enabled, the first data block has base row ID zero and every subsequent base
+equals the preceding base plus its row count. When disabled, every base row ID
+is `UINT64_MAX`.
+
+`TS_SORTED` declares that the block's primary timestamp values are
+monotonically nondecreasing in row order: every value is greater than or equal
+to the value in the preceding row, and equal adjacent values are permitted. A
+one-row block satisfies the property trivially. The flag describes one block's
+primary timestamp column only; it makes no claim about ordering between
+blocks or about any other column.
+
+A writer MUST set `TS_SORTED` only after verifying the property over the
+block's values in row order, and SHOULD set it whenever the property holds.
+When the flag is set, the block's primary timestamp minimum MUST equal the
+first row's value and its maximum MUST equal the last row's value. When the
+flag is clear, no ordering claim is made; the values may still happen to be
+sorted.
+
+A reader MAY rely on a set `TS_SORTED` flag to binary-search the decoded
+column for time-range boundaries and to merge sorted blocks without
+re-sorting. A strict reader that decodes the primary timestamp column MUST
+verify the declared ordering and the first/last bound equalities, and MUST
+report a violation as corruption. A metadata-only open defers this check the
+same way it defers stream CRC validation. The flag itself is covered by the
+frame header CRC, so a flipped flag bit is detected before any semantic check.
 
 The column table offset MUST be 64. The stream table immediately follows the
 column table at `64 + 32 × column_count`. The statistics offset MUST be at or
@@ -425,7 +450,8 @@ Encoding selection is per column per block. It does not alter the schema.
 | validity | all-valid, all-null, bit packed, boolean RLE | sparse or bursty nulls |
 
 Writers SHOULD collect min/max, run count, monotonicity, delta widths, and a
-capped distinct-value table while buffering. They SHOULD estimate every cheap
+capped distinct-value table while buffering. The monotonicity statistic for
+the primary timestamp column also determines the block's `TS_SORTED` flag. They SHOULD estimate every cheap
 candidate, compress raw plus at most the two best estimates, and retain the
 smallest stored result. This avoids the brute-force cost of fully materializing
 and compressing every candidate.

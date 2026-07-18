@@ -19,7 +19,7 @@ from typing import Iterable
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-PROBE_PATH = SCRIPT_DIR.parent / "format_probe.py"
+PROBE_PATH = SCRIPT_DIR.parent.parent / "format_probe.py"
 PROBE_SPEC = importlib.util.spec_from_file_location("acta_format_probe", PROBE_PATH)
 assert PROBE_SPEC and PROBE_SPEC.loader
 probe = importlib.util.module_from_spec(PROBE_SPEC)

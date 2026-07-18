@@ -7,7 +7,7 @@
 - [x] Specify the file header, schema, block metadata, column layout, and versioning rules.
 - [x] Define supported logical types, nullability, encodings, checksums, and incomplete-block handling.
 - [x] Publish small binary fixtures for compatibility testing.
-- [ ] Define a data-block flag declaring that primary timestamps are
+- [x] Define a data-block flag declaring that primary timestamps are
   monotonically nondecreasing within the block, including validation rules and
   a compatibility fixture.
 
