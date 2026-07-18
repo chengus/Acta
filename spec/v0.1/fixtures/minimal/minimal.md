@@ -301,9 +301,9 @@ reconstruct lost values.
 From the repository root:
 
 ```bash
-uv run spec/v0/format_probe.py \
-  --write-fixture spec/v0/fixtures/minimal.acta
-shasum -a 256 spec/v0/fixtures/minimal.acta
+uv run spec/v0.1/format_probe.py \
+  --write-fixture spec/v0.1/fixtures/minimal.acta
+shasum -a 256 spec/v0.1/fixtures/minimal.acta
 ```
 
 Expected SHA-256:

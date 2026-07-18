@@ -58,15 +58,17 @@ def pad8(data: bytes) -> bytes:
     return data + bytes((-len(data)) % 8)
 
 
-def make_prologue(file_id: bytes = bytes(range(16))) -> bytes:
+def make_prologue(file_id: bytes = bytes(range(16)), feature_flags: int = 0) -> bytes:
     if len(file_id) != 16:
         raise ValueError("file ID must contain exactly 16 bytes")
+    if feature_flags & ~1:
+        raise ValueError("unknown v0.1 feature flags")
     without_crc = PROLOGUE.pack(
         FILE_MAGIC,
         0,
         1,
         PROLOGUE.size,
-        0,
+        feature_flags,
         file_id,
         PROLOGUE.size,
         bytes(12),
