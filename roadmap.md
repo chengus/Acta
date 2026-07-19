@@ -16,23 +16,24 @@
 - [ ] Promote RC1 to final v0.1 after independent implementations can read the
   compatibility fixtures and interchange files without a format change.
 
-## 2. Build the Python reference implementation
+## 2. Build the Python reference implementation — in progress
 
 Grow the framing probe into a complete, readable reference implementation.
 Optimize for spec fidelity and iteration speed, not throughput; it doubles as
 the correctness oracle for the later C++ core and survives as a pure-Python
-fallback package.
+fallback package. The package lives in [python/](python/) as `acta-format`.
 
-- Implement typed column buffers, schema validation, and block encoding with
+- [x] Implement typed column buffers, schema validation, and block encoding with
   NumPy-backed encoders and Zstandard compression.
-- Implement block serialization, commit trailers, and sequential append.
-- Implement file scanning, time-range pruning, column projection, and decoding.
-- Implement recovery: checksum validation and truncation to the last complete frame.
-- Exercise the concurrency model with multi-process tests: concurrent tailing
+- [x] Implement block serialization, commit trailers, and sequential append.
+- [x] Implement file scanning, time-range pruning, column projection, and decoding.
+- [x] Implement recovery: checksum validation and truncation to the last complete frame.
+- [x] Exercise the concurrency model with multi-process tests: concurrent tailing
   readers against a live writer, and interrupted-append recovery.
-- Round-trip all compatibility fixtures and expand them as the spec evolves.
-- Feed implementation findings back as compatible clarifications. Any
-  incompatible binary change after RC1 uses a new format version.
+- [x] Round-trip all compatibility fixtures, including byte-exact regeneration
+  through the public writer; expand them as the spec evolves.
+- [ ] Feed findings back into the spec; freeze the format only once real datasets
+  stop forcing revisions.
 
 ## 3. Build the C++ core
 
