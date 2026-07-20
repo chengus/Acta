@@ -9,6 +9,22 @@ version. Any incompatible change to the binary representation or its required
 interpretation will use a new format version. Implementations claiming v0.1
 RC1 support MUST read the checked-in v0.1 compatibility fixtures.
 
+## 0. Terminology
+
+- A **file** is one Acta prologue followed by one schema frame and zero or more
+  data frames.
+- A **frame** is a self-delimiting unit consisting of a generic prefix, a
+  frame-specific header, a payload, and a commit trailer.
+- A **schema frame** declares the fixed columns and logical types used by every
+  data frame in the file.
+- A **data frame**, or **block**, stores one contiguous group of logical rows.
+  The terms are interchangeable in this specification.
+- A **logical stream** is a typed component of a column layout, such as values,
+  lengths, indices, or validity. Its encoded bytes and stream descriptor form
+  a **physical stream** in a data-frame payload.
+- A **transform** converts a logical stream to its encoded byte representation;
+  a **compression codec** optionally compresses those bytes for storage.
+
 ## 1. Scope
 
 Acta is an append-only, strongly typed, block-columnar file for time-series
