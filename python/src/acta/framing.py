@@ -9,6 +9,8 @@ from typing import BinaryIO
 from .constants import (
     COMMIT_MAGIC,
     FILE_MAGIC,
+    FORMAT_MAJOR,
+    FORMAT_MINOR,
     FRAME_MAGIC,
     PREFIX,
     PROLOGUE,
@@ -17,13 +19,19 @@ from .constants import (
     pad8,
 )
 from .enums import FEATURE_ROW_IDS
-from .errors import CorruptionError
+from .errors import CorruptionError, UnsupportedFormatVersionError
 
 
 @dataclass(frozen=True)
 class Prologue:
+    format_major: int
+    format_minor: int
     feature_flags: int
     file_id: bytes
+
+    @property
+    def format_version(self) -> tuple[int, int]:
+        return self.format_major, self.format_minor
 
     @property
     def row_ids(self) -> bool:
@@ -61,8 +69,8 @@ def make_prologue(file_id: bytes, feature_flags: int = 0) -> bytes:
         raise ValueError("unknown v0.1 feature flags")
     without_crc = PROLOGUE.pack(
         FILE_MAGIC,
-        0,
-        1,
+        FORMAT_MAJOR,
+        FORMAT_MINOR,
         PROLOGUE.size,
         feature_flags,
         file_id,
@@ -81,15 +89,36 @@ def parse_prologue(data: bytes) -> Prologue:
     )
     if magic != FILE_MAGIC:
         raise CorruptionError("bad file magic", offset=0)
-    if (major, minor, size, schema_offset) != (0, 1, 64, 64):
-        raise CorruptionError("unsupported prologue fields", offset=0)
-    if flags & ~FEATURE_ROW_IDS:
-        raise CorruptionError("unknown feature flags", offset=0)
-    if reserved != bytes(12):
-        raise CorruptionError("nonzero prologue reserved bytes", offset=0)
     if stored_crc != crc32c(data[:60]):
         raise CorruptionError("bad prologue CRC32C", offset=0)
-    return Prologue(feature_flags=flags, file_id=file_id)
+    if (major, minor) == (FORMAT_MAJOR, FORMAT_MINOR):
+        if (size, schema_offset) != (PROLOGUE.size, PROLOGUE.size):
+            raise CorruptionError("invalid prologue size or schema offset", offset=0)
+        if flags & ~FEATURE_ROW_IDS:
+            raise CorruptionError("unknown feature flags", offset=0)
+        if reserved != bytes(12):
+            raise CorruptionError("nonzero prologue reserved bytes", offset=0)
+    return Prologue(
+        format_major=major,
+        format_minor=minor,
+        feature_flags=flags,
+        file_id=file_id,
+    )
+
+
+def require_supported_version(prologue: Prologue) -> None:
+    """Require a version understood by this v0.1 implementation.
+
+    Version probing is kept separate from format dispatch so a future reader can
+    select another decoder without treating a valid newer Acta file as corrupt.
+    """
+    supported = ((FORMAT_MAJOR, FORMAT_MINOR),)
+    if prologue.format_version not in supported:
+        raise UnsupportedFormatVersionError(
+            prologue.format_major,
+            prologue.format_minor,
+            supported=supported,
+        )
 
 
 def make_frame(frame_type: int, sequence: int, header: bytes, payload: bytes) -> bytes:
@@ -230,6 +259,7 @@ def scan_file(
     """Validate the prologue and walk every complete frame (spec 13.1)."""
     file.seek(0)
     prologue = parse_prologue(file.read(PROLOGUE.size))
+    require_supported_version(prologue)
     frames: list[Frame] = []
     offset = PROLOGUE.size
     sequence = 0

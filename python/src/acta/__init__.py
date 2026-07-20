@@ -17,7 +17,12 @@ Common usage::
 from .columns import ColumnData
 from .encode import BlockOptions
 from .enums import LogicalType, TimestampUnit, TimezoneMode
-from .errors import ActaError, CorruptionError, SchemaError
+from .errors import (
+    ActaError,
+    CorruptionError,
+    SchemaError,
+    UnsupportedFormatVersionError,
+)
 from .reader import Block, Reader, ReadResult, open_reader
 from .recovery import RecoveryReport, recover, verify
 from .writer import Writer, create, open_append
@@ -62,6 +67,7 @@ __all__ = [
     "SchemaError",
     "TimestampUnit",
     "TimezoneMode",
+    "UnsupportedFormatVersionError",
     "Writer",
     "create",
     "open",

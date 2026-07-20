@@ -67,19 +67,22 @@ and SHOULD apply configurable resource limits before allocating memory.
 The file prologue carries a `(format major, format minor)` pair. A reader MUST
 inspect this pair before interpreting the schema or data frames. A well-formed
 Acta file whose version the reader does not implement is unsupported, not
-corrupt; implementations SHOULD report those conditions distinctly.
+corrupt; implementations SHOULD report these conditions distinctly.
 
 A major-version change may redefine existing fields or their interpretation.
 Readers MUST reject an unknown major version. A minor-version change within a
-major version is restricted to backward-compatible additions. Support for a
-major version does not, by itself, imply support for all its minor versions: a
-reader MUST use a decoder that explicitly supports the file's minor version or
-reject the file as unsupported.
+major version is restricted to backward-compatible additions, such as newly
+assigned feature bits, frame types, logical types, transforms, or codecs.
+Nevertheless, support for a major version does not by itself imply support for
+all of its minor versions: a reader MUST use a decoder that explicitly supports
+the file's minor version, or reject the file as unsupported. A reader MAY share
+one decoder across several minor versions when it implements their compatibility
+rules and understands every required feature used by the file.
 
-Feature flags declare optional capabilities within a format version. Readers
-MUST reject unknown feature bits rather than ignore semantics that may be
-required to decode the file. The generic frame version independently versions
-the frame envelope; it is not a substitute for the file-format version.
+Feature flags declare optional format capabilities within a format version.
+Readers MUST reject unknown feature bits rather than ignore semantics that may
+be required to decode the file correctly. The generic frame version independently
+versions the frame envelope; it is not a substitute for the file-format version.
 
 ## 3. Logical type system
 

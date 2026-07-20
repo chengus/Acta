@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 import io
+import struct
 
 import pytest
 
 from acta import constants, framing
-from acta.errors import CorruptionError
+from acta.errors import CorruptionError, UnsupportedFormatVersionError
 
 from conftest import fixture_bytes
 
@@ -28,6 +29,7 @@ def test_prologue_round_trip():
     data = framing.make_prologue(file_id, feature_flags=1)
     assert len(data) == 64
     prologue = framing.parse_prologue(data)
+    assert prologue.format_version == (0, 1)
     assert prologue.file_id == file_id
     assert prologue.row_ids
 
@@ -37,6 +39,22 @@ def test_prologue_rejects_corruption():
     data[5] ^= 1
     with pytest.raises(CorruptionError):
         framing.parse_prologue(bytes(data))
+
+
+@pytest.mark.parametrize("version", [(0, 2), (1, 0)])
+def test_prologue_preserves_version_and_scan_rejects_unsupported(version):
+    data = bytearray(framing.make_prologue(bytes(16)))
+    data[8:12] = struct.pack("<HH", *version)
+    data[16:24] = struct.pack("<Q", 1 << 63)  # potentially assigned by that version
+    data[60:64] = struct.pack("<I", constants.crc32c(bytes(data[:60])))
+
+    prologue = framing.parse_prologue(bytes(data))
+    assert prologue.format_version == version
+
+    with pytest.raises(UnsupportedFormatVersionError) as caught:
+        framing.scan_bytes(bytes(data))
+    assert (caught.value.major, caught.value.minor) == version
+    assert caught.value.supported == ((0, 1),)
 
 
 def test_frame_round_trip():

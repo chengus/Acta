@@ -22,7 +22,13 @@ from .decode import (
 )
 from .enums import Codec, FrameType
 from .errors import ActaError, CorruptionError
-from .framing import Frame, Prologue, parse_prologue, read_frame
+from .framing import (
+    Frame,
+    Prologue,
+    parse_prologue,
+    read_frame,
+    require_supported_version,
+)
 from .schema import Schema
 
 
@@ -116,6 +122,7 @@ class Reader:
         try:
             self._file.seek(0)
             self.prologue: Prologue = parse_prologue(self._file.read(PROLOGUE.size))
+            require_supported_version(self.prologue)
             self._entries: list[_BlockEntry] = []
             self._next_offset = PROLOGUE.size
             self._next_sequence = 0
@@ -145,6 +152,10 @@ class Reader:
     @property
     def file_id(self) -> bytes:
         return self.prologue.file_id
+
+    @property
+    def format_version(self) -> tuple[int, int]:
+        return self.prologue.format_version
 
     @property
     def row_ids(self) -> bool:

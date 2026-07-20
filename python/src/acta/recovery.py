@@ -10,7 +10,7 @@ from .constants import PROLOGUE
 from .decode import verify_block_bounds, verify_ts_sorted
 from .enums import FrameType
 from .errors import CorruptionError
-from .framing import parse_prologue, read_frame
+from .framing import parse_prologue, read_frame, require_supported_version
 from .reader import Reader
 
 
@@ -38,7 +38,8 @@ def recover(path: str | os.PathLike, *, truncate: bool = False) -> RecoveryRepor
     path = Path(path)
     with open(path, "rb") as file:
         file_size = os.fstat(file.fileno()).st_size
-        parse_prologue(file.read(PROLOGUE.size))
+        prologue = parse_prologue(file.read(PROLOGUE.size))
+        require_supported_version(prologue)
         offset = PROLOGUE.size
         sequence = 0
         frames = 0
