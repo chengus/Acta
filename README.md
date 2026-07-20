@@ -68,14 +68,16 @@ Acta prioritizes:
 
 Acta is not intended to provide transactions, in-place updates, rollback, or database-style recovery. The initial concurrency model is parallel buffering and compression with serialized appends of completed blocks; more advanced extent reservation can be added if benchmarks justify it.
 
-## Experimental specification
+## v0.1 release candidate
 
-The initial binary design is documented in [Acta file format v0.1](spec/v0.1/format_v0.1.md).
+The binary design is published as [Acta file format v0.1 RC1](spec/v0.1/format_v0.1.md).
 It is accompanied by an executable [framing and recovery probe](spec/v0.1/format_probe.py),
 deterministic [binary compatibility fixtures](spec/v0.1/fixtures/README.md) covering minimal
 framing, a multi-column real-data block, the `TS_SORTED` flag, and a `date32` primary column,
-and reproducible [encoding benchmarks](benchmarks/v0.1/README.md). These artifacts are
-experimental and do not carry a compatibility promise before v1.
+and reproducible [encoding benchmarks](benchmarks/v0.1/README.md). The v0.1 binary layout is
+frozen for compatibility testing: incompatible changes will use a new format version.
+The API and implementation remain pre-alpha until the release candidate has been validated
+by independent implementations.
 
 See [case studies](case_study/README.md) for comparisons with existing storage formats and databases.
 

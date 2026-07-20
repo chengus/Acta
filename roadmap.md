@@ -1,6 +1,6 @@
 # Pre-alpha roadmap
 
-## 1. Define the format — in progress
+## 1. Define the format — v0.1 RC1 published
 
 - [x] Iterate on the experimental [v0.1 binary design](spec/v0.1/format_v0.1.md) using the
   checked-in framing probe, fixture, and encoding study.
@@ -12,6 +12,9 @@
   a compatibility fixture.
 - [x] Define a `date32` logical type for calendar dates, including its use as
   the primary time column and a compatibility fixture.
+- [x] Freeze and publish the binary layout as v0.1 RC1 on 2026-07-20.
+- [ ] Promote RC1 to final v0.1 after independent implementations can read the
+  compatibility fixtures and interchange files without a format change.
 
 ## 2. Build the Python reference implementation
 
@@ -28,8 +31,8 @@ fallback package.
 - Exercise the concurrency model with multi-process tests: concurrent tailing
   readers against a live writer, and interrupted-append recovery.
 - Round-trip all compatibility fixtures and expand them as the spec evolves.
-- Feed findings back into the spec; freeze the format only once real datasets
-  stop forcing revisions.
+- Feed implementation findings back as compatible clarifications. Any
+  incompatible binary change after RC1 uses a new format version.
 
 ## 3. Build the C++ core
 

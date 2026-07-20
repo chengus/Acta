@@ -1,5 +1,10 @@
 # v0.1 fixtures
 
+These files are the binary compatibility anchors for Acta v0.1 RC1. Their
+checked-in bytes and SHA-256 hashes are frozen. Implementations claiming v0.1
+RC1 support MUST read them; writers may choose different valid encodings except
+when a fixture explicitly requires byte-exact regeneration.
+
 ## Minimal framing fixture
 
 `minimal.acta` is a deterministic 472-byte file containing:

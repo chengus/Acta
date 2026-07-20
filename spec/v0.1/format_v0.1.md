@@ -1,7 +1,13 @@
 # Acta file format v0.1
 
-Status: initial experimental design. Files written against this document are
-not promised forward compatibility until the format reaches v1.
+Status: **Release Candidate 1 (RC1)**, published 2026-07-20.
+
+The v0.1 binary layout is frozen for compatibility testing. Files conforming
+to this release candidate use format version `(0, 1)` in the file prologue.
+Clarifications and implementation fixes may be made without changing that
+version. Any incompatible change to the binary representation or its required
+interpretation will use a new format version. Implementations claiming v0.1
+RC1 support MUST read the checked-in v0.1 compatibility fixtures.
 
 ## 1. Scope
 
@@ -39,6 +45,25 @@ The reference block target is 65,536 rows. Writers SHOULD also impose a byte
 target so a block containing large strings or binary values does not become
 unreasonably large. Readers MUST validate all length arithmetic for overflow
 and SHOULD apply configurable resource limits before allocating memory.
+
+### 2.1 Versioning and compatibility
+
+The file prologue carries a `(format major, format minor)` pair. A reader MUST
+inspect this pair before interpreting the schema or data frames. A well-formed
+Acta file whose version the reader does not implement is unsupported, not
+corrupt; implementations SHOULD report those conditions distinctly.
+
+A major-version change may redefine existing fields or their interpretation.
+Readers MUST reject an unknown major version. A minor-version change within a
+major version is restricted to backward-compatible additions. Support for a
+major version does not, by itself, imply support for all its minor versions: a
+reader MUST use a decoder that explicitly supports the file's minor version or
+reject the file as unsupported.
+
+Feature flags declare optional capabilities within a format version. Readers
+MUST reject unknown feature bits rather than ignore semantics that may be
+required to decode the file. The generic frame version independently versions
+the frame envelope; it is not a substitute for the file-format version.
 
 ## 3. Logical type system
 
@@ -130,10 +155,11 @@ The prologue is exactly 64 bytes.
 | 48 | 12 | reserved | zero |
 | 60 | 4 | prologue CRC32C | bytes `[0, 60)` |
 
-Feature flag bit 0 is `ROW_IDS`; all other bits are zero in v0.1. Readers MUST
-reject an unknown major version, unknown feature bits, a bad CRC, or a schema
-offset other than 64. The file ID is identity metadata, not a cryptographic
-content hash.
+Feature flag bit 0 is `ROW_IDS`; all other bits are zero in v0.1. A v0.1 reader
+MUST accept format version `(0, 1)` and MUST reject every other version as
+unsupported. It MUST reject unknown feature bits, a bad CRC, or a schema offset
+other than 64 as invalid for v0.1. The file ID is identity metadata, not a
+cryptographic content hash.
 
 ## 6. Generic frame
 
