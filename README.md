@@ -1,16 +1,18 @@
 # Acta
 
-Acta is a append-only, strongly typed file format for time-series data. It is designed for fast sequential ingestion, compact storage, concurrent readers, and efficient time-range queries—all in one file.
+Acta is an append-only, strongly typed file format for time-series data. It is designed for fast sequential ingestion, compact storage, concurrent readers, and efficient time-range queries—all in one file. Files that only need simple appendable columnar storage may omit the time index.
 
 ## Design
 
-Producers collect rows in private buffers and encode them as immutable, compressed columnar blocks. Completed blocks are appended to the file with only brief coordination; their physical order does not need to match timestamp order. Each file has one required primary time column, typed as either a timestamp or a calendar date, and every block records that column's min/max bounds. A block whose primary timestamps are already nondecreasing can declare it with a `TS_SORTED` flag, letting readers binary-search within the block and merge sorted blocks without re-sorting. Readers use per-block metadata such as time bounds, row count, schema, and column statistics to skip irrelevant data, then merge matching blocks when ordered results are required.
+Producers collect rows in private buffers and encode them as immutable, compressed columnar blocks. Completed blocks are appended to the file with only brief coordination; their physical order does not need to match timestamp order. A file normally selects a primary time column, typed as either a timestamp or a calendar date, and every block records that column's min/max bounds. A block whose primary timestamps are already nondecreasing can declare it with a `TS_SORTED` flag, letting readers binary-search within the block and merge sorted blocks without re-sorting. Readers use per-block metadata such as time bounds, row count, schema, and column statistics to skip irrelevant data, then merge matching blocks when ordered results are required.
+
+In v0.2 the primary time column is optional. Without one, Acta still provides typed, compressed, checksummed appendable blocks, but timestamp-range pruning, timestamp ordering, and `TS_SORTED` are unavailable. Writer APIs can select a named column, use `"auto"` to select the first timestamp or date column in schema order, or use `None` to omit the time index.
 
 There is no mutable file footer. Every frame is self-delimiting and ends in a checksummed commit trailer, so a reader discovers new blocks by continuing from the byte after the last complete frame—concurrent tailing needs no coordination with the writer. After an interrupted append, recovery validates checksums and truncates to the last complete frame; per-stream CRCs let projected reads verify only the bytes they actually touch.
 
 ## Data types and compression
 
-Acta files use a fixed schema. The v0.1 type system includes:
+Acta files use a fixed schema. The v0.2 type system includes:
 - `bool`
 - signed and unsigned integers (8, 16, 32, and 64 bit)
 - `float32` and `float64`
@@ -36,7 +38,7 @@ Logical types describe what values mean, while each block selects the most compa
 
 Encoded columns may then use a general-purpose compressor such as Zstandard. This per-block choice preserves a stable schema without forcing every block to use the same representation.
 
-XOR/Gorilla float encoding was evaluated for the experimental v0.1 design but
+XOR/Gorilla float encoding was evaluated for the experimental format design but
 is deferred until it demonstrates a consistent advantage over raw,
 dictionary, and byte-stream-split representations.
 
@@ -50,7 +52,7 @@ Row IDs are implicit rather than stored as a full column:
 row_id = block_base_id + row_offset
 ```
 
-Each block stores one `base_row_id`. When a completed block is appended, it receives a contiguous global ID range. This provides stable unique IDs with minimal storage overhead and avoids writer-local or composite IDs. Row IDs are part of the format design but remain optional, internal, and not prominent in the v1 API.
+Each block stores one `base_row_id`. When a completed block is appended, it receives a contiguous global ID range. This provides stable unique IDs with minimal storage overhead and avoids writer-local or composite IDs. Row IDs are part of the format design but remain optional, internal, and not prominent in the initial public API.
 
 ### Future mutations
 
@@ -68,16 +70,22 @@ Acta prioritizes:
 
 Acta is not intended to provide transactions, in-place updates, rollback, or database-style recovery. The initial concurrency model is parallel buffering and compression with serialized appends of completed blocks; more advanced extent reservation can be added if benchmarks justify it.
 
-## v0.1 release candidate
+## v0.2 release candidate
 
-The binary design is published as [Acta file format v0.1 RC1](spec/v0.1/format_v0.1.md).
-It is accompanied by an executable [framing and recovery probe](spec/v0.1/format_probe.py),
-deterministic [binary compatibility fixtures](spec/v0.1/fixtures/README.md) covering minimal
-framing, a multi-column real-data block, the `TS_SORTED` flag, and a `date32` primary column,
-and reproducible [encoding benchmarks](benchmarks/v0.1/README.md). The v0.1 binary layout is
-frozen for compatibility testing: incompatible changes will use a new format version.
-The API and implementation remain pre-alpha until the release candidate has been validated
-by independent implementations.
+The current binary design is published as
+[Acta file format v0.2 RC1](spec/v0.2/format_v0.2.md). It is accompanied by an
+executable [framing and recovery probe](spec/v0.2/format_probe.py) and
+deterministic [binary compatibility fixtures](spec/v0.2/fixtures/README.md)
+covering minimal framing, a multi-column real-data block, `TS_SORTED`, a
+`date32` primary column, and a schema without a primary time column.
+Reproducible [encoding benchmarks](benchmarks/v0.1/README.md) remain available
+from the initial format evaluation.
+
+The v0.1 specification and fixtures remain preserved as historical design
+tests, but supported compatibility begins with v0.2. The v0.2 binary layout is
+frozen for compatibility testing; incompatible changes will use a new format
+version. The API and implementation remain pre-alpha until the release
+candidate has been validated by independent implementations.
 
 See [case studies](case_study/README.md) for comparisons with existing storage formats and databases.
 
