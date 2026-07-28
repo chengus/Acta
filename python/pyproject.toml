@@ -1,0 +1,25 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "acta-format"
+version = "0.1.0a0"
+description = "Pure-Python reference implementation of the Acta v0.1 time-series file format"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "GPL-3.0-or-later"
+dependencies = [
+    "numpy>=1.26",
+    "google-crc32c>=1.6",
+    "zstandard>=0.22",
+]
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/acta"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
