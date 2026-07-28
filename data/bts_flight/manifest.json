@@ -1,0 +1,248 @@
+{
+  "actual_rows": 15750000,
+  "columns": 51,
+  "dataset": "BTS Reporting Carrier On-Time Performance (1987-present)",
+  "generated_at": "2026-07-28T13:15:48.188150+00:00",
+  "output": "bts_flights_15750000.parquet",
+  "output_bytes": 381644436,
+  "output_sha256": "33c7d1fd28faa95d002e05ebf778e6345c4eb1c9d39416224ee08967bad23f27",
+  "row_groups": 173,
+  "source": "U.S. Bureau of Transportation Statistics",
+  "source_archives": [
+    {
+      "archive": "source/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2018_1.zip",
+      "archive_bytes": 29202589,
+      "archive_sha256": "d9722f0134287273bfb3c4a44e17fe9ad330ee8aecf14fc0e0f7b9312f793fa3",
+      "month": 1,
+      "rows_used": 570138,
+      "url": "https://transtats.bts.gov/PREZIP/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2018_1.zip",
+      "year": 2018
+    },
+    {
+      "archive": "source/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2018_2.zip",
+      "archive_bytes": 26783225,
+      "archive_sha256": "8f7f283402b784f61d33e91788a637ded6db296bda41a88536cfd8a2929b86fa",
+      "month": 2,
+      "rows_used": 520769,
+      "url": "https://transtats.bts.gov/PREZIP/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2018_2.zip",
+      "year": 2018
+    },
+    {
+      "archive": "source/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2018_3.zip",
+      "archive_bytes": 30193999,
+      "archive_sha256": "8f39974ed7886cb8c1b54ce22867a50167bd4aa65922dd263135da88515ab52b",
+      "month": 3,
+      "rows_used": 612034,
+      "url": "https://transtats.bts.gov/PREZIP/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2018_3.zip",
+      "year": 2018
+    },
+    {
+      "archive": "source/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2018_4.zip",
+      "archive_bytes": 30781043,
+      "archive_sha256": "d35e81cfce45a634a7cbee24762549d6c1d2812c457ecf5663a61b558c84112b",
+      "month": 4,
+      "rows_used": 596078,
+      "url": "https://transtats.bts.gov/PREZIP/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2018_4.zip",
+      "year": 2018
+    },
+    {
+      "archive": "source/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2018_5.zip",
+      "archive_bytes": 31736637,
+      "archive_sha256": "2dc7e1aaf04e2decab5c16ff6120c9e6d74e432220ab4748e7ed70c2952f0bcc",
+      "month": 5,
+      "rows_used": 616573,
+      "url": "https://transtats.bts.gov/PREZIP/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2018_5.zip",
+      "year": 2018
+    },
+    {
+      "archive": "source/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2018_6.zip",
+      "archive_bytes": 32226333,
+      "archive_sha256": "0e7a70532dac2088ab565cfc2d2cc6ce44e3c0df812445ecb3370855aa1a7638",
+      "month": 6,
+      "rows_used": 626217,
+      "url": "https://transtats.bts.gov/PREZIP/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2018_6.zip",
+      "year": 2018
+    },
+    {
+      "archive": "source/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2018_7.zip",
+      "archive_bytes": 32887569,
+      "archive_sha256": "d3fcf16100dd59ed2f1a789dd52b0dd78050c341aaa46e40422b6618f360e271",
+      "month": 7,
+      "rows_used": 645317,
+      "url": "https://transtats.bts.gov/PREZIP/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2018_7.zip",
+      "year": 2018
+    },
+    {
+      "archive": "source/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2018_8.zip",
+      "archive_bytes": 33006511,
+      "archive_sha256": "6aae45cee01d6dda1cb0612939ddcc5fe41371cf81b8a0ef42382b9f6a11607b",
+      "month": 8,
+      "rows_used": 637103,
+      "url": "https://transtats.bts.gov/PREZIP/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2018_8.zip",
+      "year": 2018
+    },
+    {
+      "archive": "source/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2018_9.zip",
+      "archive_bytes": 29882599,
+      "archive_sha256": "32b9423c827b45ffe4569fce650d1e181982be246afa4c478b8ce885bf24908d",
+      "month": 9,
+      "rows_used": 585765,
+      "url": "https://transtats.bts.gov/PREZIP/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2018_9.zip",
+      "year": 2018
+    },
+    {
+      "archive": "source/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2018_10.zip",
+      "archive_bytes": 31418901,
+      "archive_sha256": "fbe490583915f3fc715ac33ee2c5f467e29facef37be4d9ae6b4b7f36bcdf796",
+      "month": 10,
+      "rows_used": 616128,
+      "url": "https://transtats.bts.gov/PREZIP/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2018_10.zip",
+      "year": 2018
+    },
+    {
+      "archive": "source/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2018_11.zip",
+      "archive_bytes": 29969446,
+      "archive_sha256": "409d05a88e646c21b635a7332bf4cc9eb570f62b376b11bfd81049218d1367f8",
+      "month": 11,
+      "rows_used": 586231,
+      "url": "https://transtats.bts.gov/PREZIP/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2018_11.zip",
+      "year": 2018
+    },
+    {
+      "archive": "source/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2018_12.zip",
+      "archive_bytes": 30387123,
+      "archive_sha256": "c5269bc44df690600221d62b31614ad96799bb81e20693d9e9b976f9deefdcde",
+      "month": 12,
+      "rows_used": 593842,
+      "url": "https://transtats.bts.gov/PREZIP/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2018_12.zip",
+      "year": 2018
+    },
+    {
+      "archive": "source/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2019_1.zip",
+      "archive_bytes": 29527308,
+      "archive_sha256": "e0d43e9fca6a298a0f67886e15ad3c2a6641fd0e064e7c93a826e827190ace2d",
+      "month": 1,
+      "rows_used": 583985,
+      "url": "https://transtats.bts.gov/PREZIP/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2019_1.zip",
+      "year": 2019
+    },
+    {
+      "archive": "source/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2019_2.zip",
+      "archive_bytes": 27392090,
+      "archive_sha256": "f875de8d70c18229d0e0d1b2e8d7da83b8cfdf4daa10772256e74586859f5003",
+      "month": 2,
+      "rows_used": 533175,
+      "url": "https://transtats.bts.gov/PREZIP/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2019_2.zip",
+      "year": 2019
+    },
+    {
+      "archive": "source/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2019_3.zip",
+      "archive_bytes": 31992570,
+      "archive_sha256": "cacf26234b805c20aa6fe6195616b4e4cdc64d190b684474171b9b045b2e670c",
+      "month": 3,
+      "rows_used": 632074,
+      "url": "https://transtats.bts.gov/PREZIP/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2019_3.zip",
+      "year": 2019
+    },
+    {
+      "archive": "source/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2019_4.zip",
+      "archive_bytes": 31115601,
+      "archive_sha256": "6da5230e97bfa1fff7526f7100d3075a0872766ddf117a096dc9d2d2b409ae3e",
+      "month": 4,
+      "rows_used": 612023,
+      "url": "https://transtats.bts.gov/PREZIP/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2019_4.zip",
+      "year": 2019
+    },
+    {
+      "archive": "source/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2019_5.zip",
+      "archive_bytes": 32950743,
+      "archive_sha256": "31ba30855fa8e1633e4d2da04a506f7076276b8b684ef553f756a31297d5b15e",
+      "month": 5,
+      "rows_used": 636390,
+      "url": "https://transtats.bts.gov/PREZIP/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2019_5.zip",
+      "year": 2019
+    },
+    {
+      "archive": "source/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2019_6.zip",
+      "archive_bytes": 33597362,
+      "archive_sha256": "22baf5bd22a7ecb94d853b4c99563ff076a9262d62c6f137124d1e056a17172d",
+      "month": 6,
+      "rows_used": 636691,
+      "url": "https://transtats.bts.gov/PREZIP/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2019_6.zip",
+      "year": 2019
+    },
+    {
+      "archive": "source/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2019_7.zip",
+      "archive_bytes": 34226844,
+      "archive_sha256": "60cc698891cc7a074e226d0c2765fab7186884381ee5bb7f8fd120a14a7fcce4",
+      "month": 7,
+      "rows_used": 659029,
+      "url": "https://transtats.bts.gov/PREZIP/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2019_7.zip",
+      "year": 2019
+    },
+    {
+      "archive": "source/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2019_8.zip",
+      "archive_bytes": 34112844,
+      "archive_sha256": "bfe19fa8fd705998288952234375401909c3a6f4b16aa71431940183120b0f50",
+      "month": 8,
+      "rows_used": 658461,
+      "url": "https://transtats.bts.gov/PREZIP/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2019_8.zip",
+      "year": 2019
+    },
+    {
+      "archive": "source/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2019_9.zip",
+      "archive_bytes": 30508709,
+      "archive_sha256": "7673b6d53aa11ea08ae03a74e05c8453301c32d6ba77b62a4f3b93a0e28359fb",
+      "month": 9,
+      "rows_used": 605979,
+      "url": "https://transtats.bts.gov/PREZIP/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2019_9.zip",
+      "year": 2019
+    },
+    {
+      "archive": "source/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2019_10.zip",
+      "archive_bytes": 32419572,
+      "archive_sha256": "6da37bf93019ac332754da90d440da2c9e8b2c20372eaf32db78bc736cab34ce",
+      "month": 10,
+      "rows_used": 636014,
+      "url": "https://transtats.bts.gov/PREZIP/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2019_10.zip",
+      "year": 2019
+    },
+    {
+      "archive": "source/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2019_11.zip",
+      "archive_bytes": 31005144,
+      "archive_sha256": "6ec48d19a3d4813c96b4a96c0cdf9385ade530cc20b193b63ec607bb032de916",
+      "month": 11,
+      "rows_used": 602453,
+      "url": "https://transtats.bts.gov/PREZIP/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2019_11.zip",
+      "year": 2019
+    },
+    {
+      "archive": "source/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2019_12.zip",
+      "archive_bytes": 33113829,
+      "archive_sha256": "e146e2068c0608622adb028a145efa8abc918c5b7b77a004dd438e9ba11e6a8b",
+      "month": 12,
+      "rows_used": 625763,
+      "url": "https://transtats.bts.gov/PREZIP/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2019_12.zip",
+      "year": 2019
+    },
+    {
+      "archive": "source/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2020_1.zip",
+      "archive_bytes": 30636034,
+      "archive_sha256": "51a1c727d71039822139e3c507c25a49fb94b31c2a025e8a1c5ffea7577d37d1",
+      "month": 1,
+      "rows_used": 607346,
+      "url": "https://transtats.bts.gov/PREZIP/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2020_1.zip",
+      "year": 2020
+    },
+    {
+      "archive": "source/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2020_2.zip",
+      "archive_bytes": 29495988,
+      "archive_sha256": "6596cd3c1ff9cb9cfd51dbe60012b79167d89c72ba20918ded71b8b830608853",
+      "month": 2,
+      "rows_used": 514422,
+      "url": "https://transtats.bts.gov/PREZIP/On_Time_Reporting_Carrier_On_Time_Performance_1987_present_2020_2.zip",
+      "year": 2020
+    }
+  ],
+  "target_rows": 15750000
+}
