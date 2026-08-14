@@ -12,6 +12,7 @@ libfuzzer-sys = "0.4"
 tempfile = "3"
 
 [dependencies.acta]
+package = "acta-core"
 path = ".."
 
 [[bin]]
