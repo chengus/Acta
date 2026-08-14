@@ -1,3 +1,5 @@
+> **Alpha release:** Acta Core 0.1.0-alpha.1 is the first public alpha of the Rust implementation.
+
 # Acta
 
 Acta is an append-only, strongly typed file format for time-series data. It is designed for fast sequential ingestion, compact storage, concurrent readers, and efficient time-range queries—all in one file. Files that only need simple appendable columnar storage may omit the time index.
