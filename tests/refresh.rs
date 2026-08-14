@@ -696,6 +696,22 @@ fn committed_prefix_truncation_is_refused() {
 
 // --------------------------------------------------------------- replacement
 
+fn replace_with_blocks(
+    path: &Path,
+    label: &str,
+    schema: &Schema,
+    rows: &[i64],
+    options: WriterOptions,
+) {
+    // Create the replacement while the current file is still linked. This
+    // guarantees that the two files have distinct identities even on a file
+    // system that immediately reuses an inode after unlinking.
+    let replacement = TempPath::new(label);
+    write_blocks(replacement.path(), schema, rows, options);
+    fs::remove_file(path).unwrap();
+    fs::rename(replacement.path(), path).unwrap();
+}
+
 #[test]
 fn a_replaced_path_is_refused_regardless_of_the_replacement() {
     let schema = int64_schema(18);
@@ -706,9 +722,9 @@ fn a_replaced_path_is_refused_regardless_of_the_replacement() {
     let mut reader = Reader::open(path.path()).unwrap();
     let before_size = reader.file_metadata().file_size();
 
-    // Every replacement below unlinks the path first, so file-system identity
-    // alone is enough to refuse it. Replacements that keep the identity get
-    // their own test.
+    // Every replacement below is built beside the current file before being
+    // moved onto its path, so file-system identity alone is enough to refuse
+    // it. Replacements that keep the identity get their own test.
     //
     // (a) A different schema: same column count and type, different column
     // ID and name, so a content check alone could not distinguish it from the
@@ -718,22 +734,37 @@ fn a_replaced_path_is_refused_regardless_of_the_replacement() {
         vec![Column::new(2, "other", LogicalType::Int64, false)],
         None,
     );
-    fs::remove_file(path.path()).unwrap();
-    write_blocks(path.path(), &other_schema, &[7, 8], options);
+    replace_with_blocks(
+        path.path(),
+        "different-schema-replacement",
+        &other_schema,
+        &[7, 8],
+        options,
+    );
     let error = reader.refresh().unwrap_err();
     assert_eq!(error.kind(), ErrorKind::FileReplaced, "{error}");
 
     // (b) An identical schema, so the bytes could have passed a content check.
-    fs::remove_file(path.path()).unwrap();
-    write_blocks(path.path(), &schema, &[1, 2], options);
+    replace_with_blocks(
+        path.path(),
+        "identical-schema-replacement",
+        &schema,
+        &[1, 2],
+        options,
+    );
     assert_eq!(
         reader.refresh().unwrap_err().kind(),
         ErrorKind::FileReplaced
     );
 
     // (c) A different valid file of exactly the same length.
-    fs::remove_file(path.path()).unwrap();
-    write_blocks(path.path(), &schema, &[3, 4], options);
+    replace_with_blocks(
+        path.path(),
+        "same-length-replacement",
+        &schema,
+        &[3, 4],
+        options,
+    );
     let mut same_length = fs::read(path.path()).unwrap();
     let delta = same_length.len() as i64 - original.len() as i64;
     if delta > 0 {
