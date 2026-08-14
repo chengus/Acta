@@ -14,6 +14,8 @@ use crate::format::constants::{
 use crate::format::scan::FileScan;
 use crate::limits::Limits;
 use crate::lock::acquire_writer_lock;
+#[cfg(unix)]
+use crate::lock::release_writer_lock;
 use crate::schema::Schema;
 
 use super::api::{WriteAccounting, WriteSummary, WriterOptions, WriterStatistics};
@@ -30,11 +32,20 @@ use super::invalid_batch;
 /// always writes to a [`File`].
 pub(super) trait Sink: Write + Send + Sync {
     fn sync(&mut self) -> io::Result<()>;
+
+    fn release_lock(&mut self) -> io::Result<()> {
+        Ok(())
+    }
 }
 
 impl Sink for File {
     fn sync(&mut self) -> io::Result<()> {
         self.sync_all()
+    }
+
+    #[cfg(unix)]
+    fn release_lock(&mut self) -> io::Result<()> {
+        release_writer_lock(self)
     }
 }
 
@@ -538,6 +549,9 @@ impl Writer {
     /// with the writer.
     pub fn finish(mut self) -> Result<WriteSummary> {
         self.sync()?;
+        self.sink
+            .release_lock()
+            .map_err(|error| Error::io(error, None).with_context(ErrorContext::File))?;
         Ok(WriteSummary {
             rows_written: self.published_rows,
             blocks_written: self.blocks_written,

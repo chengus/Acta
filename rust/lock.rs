@@ -21,6 +21,32 @@ pub(crate) fn acquire_writer_lock(file: &File) -> Result<()> {
     }
 }
 
+/// Explicitly release a Unix writer lock before a successfully finished writer
+/// returns to its caller.
+///
+/// Closing the file also releases the lock, but making the successful handoff
+/// explicit ensures an immediately reopened writer never observes the previous
+/// session's lock. Other supported platforms retain their close-on-drop
+/// behavior.
+#[cfg(unix)]
+pub(crate) fn release_writer_lock(file: &File) -> io::Result<()> {
+    use std::os::fd::AsRawFd;
+
+    unsafe extern "C" {
+        fn flock(file_descriptor: i32, operation: i32) -> i32;
+    }
+
+    const LOCK_UN: i32 = 8;
+    // SAFETY: `as_raw_fd` returns the live descriptor owned by `file`, and
+    // flock does not retain any pointer supplied by the caller.
+    let result = unsafe { flock(file.as_raw_fd(), LOCK_UN) };
+    if result == 0 {
+        Ok(())
+    } else {
+        Err(io::Error::last_os_error())
+    }
+}
+
 /// Whether a failed lock request means another writer holds the lock.
 #[cfg(unix)]
 fn is_lock_contention(error: &io::Error) -> bool {
