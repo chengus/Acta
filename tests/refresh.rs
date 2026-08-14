@@ -708,7 +708,9 @@ fn replace_with_blocks(
     // system that immediately reuses an inode after unlinking.
     let replacement = TempPath::new(label);
     write_blocks(replacement.path(), schema, rows, options);
-    fs::remove_file(path).unwrap();
+    if path.exists() {
+        fs::remove_file(path).unwrap();
+    }
     fs::rename(replacement.path(), path).unwrap();
 }
 
@@ -721,6 +723,12 @@ fn a_replaced_path_is_refused_regardless_of_the_replacement() {
     let original = fs::read(path.path()).unwrap();
     let mut reader = Reader::open(path.path()).unwrap();
     let before_size = reader.file_metadata().file_size();
+
+    // Keep the original inode linked for the whole test. Otherwise Linux may
+    // recycle it for a later replacement, making a genuinely new file appear
+    // to have the identity captured by `reader`.
+    let original_identity = TempPath::new("original-identity");
+    fs::rename(path.path(), original_identity.path()).unwrap();
 
     // Every replacement below is built beside the current file before being
     // moved onto its path, so file-system identity alone is enough to refuse
