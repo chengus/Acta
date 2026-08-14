@@ -1,0 +1,54 @@
+[BEGINNING STATS]
+started_unix_seconds=1786707365
+input=/Users/lucentlu/Downloads/sendgb-jJ7BFwzuIfN/deltas.parquet
+output=/Users/lucentlu/Git Clone/Acta/deltas.acta
+stats_report=/Users/lucentlu/Git Clone/Acta/deltas.acta.stats.txt
+input_file_bytes=2057215095
+input_file_mib=1961.913
+parquet_rows=239246024
+parquet_row_groups=238
+parquet_columns=13
+parquet_column_chunks_compressed_bytes=1526729920
+parquet_column_chunks_uncompressed_bytes=4894064162
+reader_batch_rows=262144
+acta_row_block_target=262144
+acta_byte_block_target=67108864
+acta_primary=received_at (column 1)
+acta_encoding=fixed raw (no adaptive profiling)
+acta_codec=zstandard
+acta_zstd_level=1
+acta_optional_statistics=none
+
+[FIXED SCHEMA]
+1	received_at	Timestamp { unit: Microsecond, timezone: Utc }	nullable=false	primary=true
+2	source_timestamp	Timestamp { unit: Microsecond, timezone: Utc }	nullable=true	primary=false
+3	sink_handoff_at	Timestamp { unit: Microsecond, timezone: Utc }	nullable=true	primary=false
+4	sequence	UInt64	nullable=true	primary=false
+5	worker_id	Categorical { ordered: false }	nullable=true	primary=false
+6	venue	Categorical { ordered: false }	nullable=false	primary=false
+7	market_key	Utf8	nullable=false	primary=false
+8	instrument_key	Utf8	nullable=false	primary=false
+9	outcome_label	Categorical { ordered: false }	nullable=false	primary=false
+10	book_side	Categorical { ordered: false }	nullable=false	primary=false
+11	price	Float64	nullable=false	primary=false
+12	size	Float64	nullable=false	primary=false
+13	update_kind	Categorical { ordered: false }	nullable=false	primary=false
+
+[FINAL STATS]
+finished_unix_seconds=1786707814
+rows_read=239246024
+rows_written=239246024
+batches_read=913
+acta_blocks_written=966
+acta_last_block_sequence=966
+acta_accounted_raw_bytes=64637623432
+input_file_bytes=2057215095
+output_file_bytes=1773915800
+output_file_mib=1691.738
+acta_to_parquet_size_ratio=0.862290
+size_change_percent=-13.771
+elapsed_seconds=448.845981
+throughput_rows_per_second=533025
+throughput_input_mib_per_second=4.371
+throughput_output_mib_per_second=3.769
+result=complete

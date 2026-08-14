@@ -273,6 +273,11 @@ count MUST be nonzero. Each descriptor begins on an eight-byte boundary.
 Column IDs MUST be unique and nonzero. Names MUST be unique. Column flag bit 0
 means nullable; all other bits are zero.
 
+Descriptors appear in schema order, which is the order a reader reports the
+columns in. That order is not required to be sorted by column ID, and a reader
+MUST NOT reject a schema whose IDs are unique but not ascending. The sorted
+column table of section 8.1 is a separate requirement on data frames.
+
 The primary timestamp column ID is either zero or the ID of exactly one
 declared column. Zero means that the schema has no primary timestamp column;
 because real column IDs are nonzero, column ID zero is reserved as this
@@ -309,6 +314,14 @@ Type-parameter records are:
 - `categorical`: `<uint8 ordered, 7 reserved bytes>`.
 - `fixed_binary`: `<uint32 byte_width, uint32 reserved>`.
 - Types without parameters have a zero parameter length.
+
+Every type-parameter record is itself padded with zeros to the next eight-byte
+boundary, and the stored type-parameter length includes that padding. Only the
+`timestamp64` record is variable, so its length is eight bytes plus its timezone
+name length rounded up to a multiple of eight; a naive UTC or naive-mode record
+is therefore exactly eight bytes. Descriptor padding is separate and follows the
+parameters. This keeps the parameter record self-delimiting rather than making
+its length depend on where the descriptor happens to end.
 
 ## 8. Data frame header
 
@@ -406,6 +419,12 @@ implicit nullable column, null count zero means all-valid and null count equal
 to row count means all-null; other null counts require an explicit validity
 stream.
 
+A non-nullable column has no validity representation for bit 0 to describe, so
+the bit carries no information there. Writers SHOULD clear it on a non-nullable
+column, and readers MUST accept either value rather than infer nullability from
+it; the schema frame is the only authority on whether a column is nullable. The
+checked-in v0.2 fixtures use both conventions, and both are valid.
+
 Column layouts are:
 
 | ID | Layout | Required logical streams |
@@ -443,7 +462,10 @@ Stream kinds are `1=validity`, `2=values`, `3=lengths`,
 `7=run_values`, and `8=run_lengths`.
 
 Every stream begins at an eight-byte-aligned payload offset. Stream ranges MUST
-not overlap. A reader performing projection reads and validates only required
+not overlap. A stored length of zero is a legal empty range that overlaps
+nothing, but writers SHOULD still give every stream a payload offset of its own,
+so that no reader has to decide whether an empty range at a shared offset is an
+overlap. A reader performing projection reads and validates only required
 streams. The body CRC remains available for a full integrity scan.
 
 ## 9. Stream transforms

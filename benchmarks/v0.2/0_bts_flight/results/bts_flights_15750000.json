@@ -1,0 +1,47 @@
+{
+  "benchmark": "bts_flight_parquet_to_acta",
+  "recorded_at": "2026-08-11",
+  "dataset": {
+    "source": "U.S. Bureau of Transportation Statistics Reporting Carrier On-Time Performance",
+    "manifest": "benchmarks/v0.2/0_bts_flight/manifest.json",
+    "rows": 15750000,
+    "columns": 51,
+    "parquet_row_groups": 173,
+    "parquet_bytes": 381644436,
+    "parquet_sha256": "33c7d1fd28faa95d002e05ebf778e6345c4eb1c9d39416224ee08967bad23f27"
+  },
+  "output": {
+    "format": "Acta v0.2",
+    "acta_bytes": 325340952,
+    "acta_sha256": "ee5c07e11197665895065d3b998f30d2a3984bd6920e9121d04db67e55821d29",
+    "acta_blocks": 241,
+    "frames": 242,
+    "incomplete_tail": false
+  },
+  "options": {
+    "feature": "parquet-example",
+    "profile": "release",
+    "parquet_batch_rows": 65536,
+    "acta_row_block_target": 65536,
+    "encoding": "adaptive",
+    "codec": "zstd",
+    "zstd_level": 6,
+    "primary_column": "flight_date",
+    "primary_type": "date32"
+  },
+  "timing": {
+    "elapsed_seconds": 129.824,
+    "input_mib_per_second": 2.80,
+    "rows_per_second": 121318,
+    "acta_over_parquet_ratio": 0.8524713616,
+    "size_reduction_percent": 14.75286384,
+    "scope": "Parquet reader construction, Arrow decode, explicit typed conversion, Acta encode/write, and Writer::finish; excludes compilation, dataset download, and initial Parquet metadata/schema mapping"
+  },
+  "environment": {
+    "rustc": "1.93.0 (254b59607 2026-01-19)",
+    "cargo": "1.93.0",
+    "target": "aarch64-apple-darwin",
+    "os": "Darwin 24.6.0",
+    "logical_cpus": 8
+  }
+}

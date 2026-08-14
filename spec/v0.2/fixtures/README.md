@@ -165,3 +165,38 @@ The generator accepts the valid absence sentinel and rejects otherwise-valid
 blocks with a nonzero timestamp bound or a set `TS_SORTED` flag. It also checks
 every truncation point inside the data frame and representative CRC-protected
 corruption.
+
+## IANA timezone fixture
+
+`timezone/timezone.acta` is a deterministic 608-byte file pinning the encoding
+of the only variable-length type-parameter record in v0.2. Its schema contains a
+non-nullable `timestamp64` primary column named `time` with millisecond unit and
+IANA timezone `Europe/Berlin`, plus an `int64` column named `value`. The three-row
+data block sets `TS_SORTED`.
+
+The timezone name is thirteen bytes, so the parameter record carries three bytes
+of padding and its stored length is `8 + 13` rounded up to `24`. A reader that
+expected `21` rejects this file, and a writer that stored `21` produces one this
+fixture rejects. No other checked-in fixture exercises that rounding.
+
+See [timezone.md](timezone/timezone.md) for the annotated record and the
+validation rules this fixture exercises.
+
+SHA-256:
+
+```text
+7adca0c16d7dee8ee708481fcb10b97c88117ae5799b371f507d512dfba08941
+```
+
+Regenerate and semantically validate it from the repository root:
+
+```bash
+uv run spec/v0.2/fixtures/timezone/timezone.py \
+  --output spec/v0.2/fixtures/timezone/timezone.acta \
+  --markdown-output spec/v0.2/fixtures/timezone/timezone.md
+```
+
+The generator rejects an unpadded parameter record, IANA mode with an empty
+name, and `TS_SORTED` bounds that are not the first and last stored values. It
+also checks every truncation point inside the data frame and CRC-protected
+corruption of the timezone name.

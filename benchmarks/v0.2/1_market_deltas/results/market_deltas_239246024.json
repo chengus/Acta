@@ -1,0 +1,58 @@
+{
+  "benchmark": "market_deltas_parquet_to_acta",
+  "recorded_at": "2026-08-14",
+  "dataset": {
+    "source": "user-supplied ClickHouse Parquet export",
+    "created_by": "ClickHouse version 26.4.1 (build 6626971c105775212f3ccd4cbe9f398474327448)",
+    "rows": 239246024,
+    "columns": 13,
+    "parquet_row_groups": 238,
+    "parquet_bytes": 2057215095,
+    "parquet_column_chunks_compressed_bytes": 1526729920,
+    "parquet_column_chunks_uncompressed_bytes": 4894064162,
+    "parquet_sha256": "7f2e8dfc86f161737b038c81ce4dbc6b3e0a9fdf4bcc19e36b931490f3218c2a"
+  },
+  "output": {
+    "format": "Acta v0.2",
+    "acta_bytes": 1773915800,
+    "acta_sha256": "d5c1d8d1654d8b9373e0225685989e7a49cb65338fd2c84969deb24c75ba8f43",
+    "acta_blocks": 966,
+    "last_sequence": 966,
+    "rows": 239246024,
+    "primary_column": "received_at",
+    "incomplete_tail": false,
+    "accounted_raw_bytes": 64637623432
+  },
+  "options": {
+    "feature": "parquet-example",
+    "profile": "release",
+    "parquet_batch_rows": 262144,
+    "acta_row_block_target": 262144,
+    "acta_byte_block_target": 67108864,
+    "encoding": "fixed_raw",
+    "codec": "zstd",
+    "zstd_level": 1,
+    "statistics": "none",
+    "primary_column": "received_at",
+    "primary_type": "timestamp64(us, UTC)"
+  },
+  "timing": {
+    "started_unix_seconds": 1786707365,
+    "finished_unix_seconds": 1786707814,
+    "elapsed_seconds": 448.845981,
+    "input_mib_per_second": 4.371,
+    "output_mib_per_second": 3.769,
+    "rows_per_second": 533025,
+    "acta_over_parquet_ratio": 0.862290,
+    "size_reduction_percent": 13.771,
+    "scope": "Parquet reader construction, Arrow decode, explicit typed conversion, Acta fixed-raw encode/Zstandard write, Writer::finish, and synchronization; excludes compilation, download, initial metadata/schema validation, and post-run validation"
+  },
+  "environment": {
+    "rustc": "1.93.0 (254b59607 2026-01-19)",
+    "cargo": "1.93.0",
+    "target": "aarch64-apple-darwin",
+    "os": "macOS 15.6.1 (Darwin 24.6.0)",
+    "logical_cpus": 8,
+    "source_revision": "dee6840db43c190561fffc92ba415d2675fd9dc0"
+  }
+}

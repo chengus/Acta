@@ -1,0 +1,101 @@
+[package]
+name = "acta-core"
+version = "0.1.0-alpha.1"
+edition = "2024"
+rust-version = "1.85"
+description = "Append-only columnar file format for time-series data"
+license = "GPL-3.0-or-later"
+repository = "https://github.com/chengus/Acta"
+homepage = "https://github.com/chengus/Acta"
+documentation = "https://docs.rs/acta-core"
+readme = "README.md"
+keywords = ["time-series", "columnar", "storage", "file-format", "append-only"]
+categories = ["database-implementations", "encoding", "filesystem"]
+default-run = "acta"
+include = [
+    "/rust/**",
+    "/examples/**",
+    "/tests/**",
+    "/benchmarks/**/*.md",
+    "/benchmarks/stage5/stage5_benchmark.rs",
+    "/benchmarks/stage7/stage7_benchmark.rs",
+    "/benchmarks/stage7b/stage7b_benchmark.rs",
+    "/benchmarks/stage7c/stage7c_benchmark.rs",
+    "/case_study/**",
+    "/spec/v0.2/format_v0.2.md",
+    "/spec/v0.2/format_probe.py",
+    "/spec/v0.2/fixtures/**/*.acta",
+    "/spec/v0.2/fixtures/**/*.md",
+    "/spec/v0.2/fixtures/**/*.parquet",
+    "/spec/v0.2/fixtures/**/*.py",
+    "/CHANGELOG.md",
+    "/LICENSE",
+    "/README.md",
+]
+
+[features]
+default = ["zstd"]
+# Zstandard is the only codec v0.2 defines beyond `none`. Turning it off drops
+# the C library and its build requirements; files that use codec 1 then report
+# an unsupported stream.
+zstd = ["dep:zstd"]
+# The real-data Parquet conversion example is deliberately opt-in so ordinary
+# library, test, and benchmark builds do not compile its Arrow/Parquet stack.
+parquet-example = []
+# The multi-process tail fixture below. It is a test helper rather than a
+# supported command line, and `cargo install` installs every bin target it can
+# build, so the feature keeps it off the PATH of anyone who installs this
+# crate. CI enables it so the multi-process coverage still runs.
+test-fixtures = []
+
+[dependencies]
+crc32c = "0.6.8"
+zstd = { version = "0.13", optional = true }
+
+[dev-dependencies]
+arrow-array = "56.2.1"
+arrow-schema = "56.2.1"
+parquet = { version = "56.2.1", default-features = false, features = ["arrow", "zstd"] }
+
+[lib]
+name = "acta"
+path = "rust/lib.rs"
+
+[[bin]]
+name = "acta"
+path = "rust/bin/acta/main.rs"
+
+[[bin]]
+name = "acta_append"
+path = "rust/bin/acta_append.rs"
+required-features = ["test-fixtures"]
+
+[[example]]
+name = "parquet_to_acta"
+path = "examples/parquet_to_acta.rs"
+required-features = ["parquet-example"]
+
+[[example]]
+name = "deltas_parquet_to_acta"
+path = "examples/deltas_parquet_to_acta.rs"
+required-features = ["parquet-example"]
+
+# Benchmark harnesses live beside their reports under benchmarks/ rather than
+# in the user-facing examples/ directory. They remain explicit Cargo targets
+# so the existing `cargo run --example ...` and `cargo test --all-targets`
+# workflows continue to work.
+[[example]]
+name = "stage5_benchmark"
+path = "benchmarks/stage5/stage5_benchmark.rs"
+
+[[example]]
+name = "stage7_benchmark"
+path = "benchmarks/stage7/stage7_benchmark.rs"
+
+[[example]]
+name = "stage7b_benchmark"
+path = "benchmarks/stage7b/stage7b_benchmark.rs"
+
+[[example]]
+name = "stage7c_benchmark"
+path = "benchmarks/stage7c/stage7c_benchmark.rs"

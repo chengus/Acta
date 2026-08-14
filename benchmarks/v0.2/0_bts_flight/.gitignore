@@ -1,0 +1,4 @@
+*.parquet
+*.acta
+*.part
+source/*.zip
