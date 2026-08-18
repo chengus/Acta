@@ -11,8 +11,8 @@ use std::sync::Arc;
 use std::time::Instant;
 
 use acta::{
-    Array as ActaArray, Column, LogicalType, PrimitiveArray as ActaPrimitiveArray,
-    Reader, RecordBatch as ActaRecordBatch, Schema, TimeUnit, TimeZone, TimestampArray,
+    Array as ActaArray, Column, LogicalType, PrimitiveArray as ActaPrimitiveArray, Reader,
+    RecordBatch as ActaRecordBatch, Schema, TimeUnit, TimeZone, TimestampArray,
     Utf8Array as ActaUtf8Array, Writer, WriterCodec, WriterEncoding, WriterOptions,
 };
 use arrow_array::types::{Float64Type, Int64Type, TimestampMicrosecondType};
@@ -21,8 +21,8 @@ use arrow_array::{
     StringArray,
 };
 use arrow_schema::{DataType, Schema as ArrowSchema};
-use parquet::arrow::arrow_reader::ParquetRecordBatchReaderBuilder;
 use parquet::arrow::ArrowWriter;
+use parquet::arrow::arrow_reader::ParquetRecordBatchReaderBuilder;
 use parquet::basic::{Compression, ZstdLevel};
 use parquet::file::properties::WriterProperties;
 
@@ -67,7 +67,9 @@ impl Format {
             "acta" => Ok(Self::Acta),
             "parquet" => Ok(Self::Parquet),
             "csv" => Ok(Self::Csv),
-            _ => Err(format!("unknown format {value:?}; expected acta, parquet, or csv")),
+            _ => Err(format!(
+                "unknown format {value:?}; expected acta, parquet, or csv"
+            )),
         }
     }
 
@@ -319,14 +321,21 @@ fn load_batches(
 
 fn validate_arrow_schema(schema: &ArrowSchema) -> Result<(), Box<dyn StdError>> {
     if schema.fields().len() != COLUMN_NAMES.len() {
-        return Err(format!("expected {} columns, got {}", COLUMN_NAMES.len(), schema.fields().len()).into());
+        return Err(format!(
+            "expected {} columns, got {}",
+            COLUMN_NAMES.len(),
+            schema.fields().len()
+        )
+        .into());
     }
     for (field, expected) in schema.fields().iter().zip(COLUMN_NAMES) {
         if field.name() != expected {
             return Err(format!("expected column {expected:?}, got {:?}", field.name()).into());
         }
     }
-    if schema.field(0).data_type() != &DataType::Timestamp(arrow_schema::TimeUnit::Microsecond, Some("UTC".into())) {
+    if schema.field(0).data_type()
+        != &DataType::Timestamp(arrow_schema::TimeUnit::Microsecond, Some("UTC".into()))
+    {
         return Err("timestamp must be timestamp[us, UTC]".into());
     }
     Ok(())
@@ -385,7 +394,11 @@ fn convert_batch(
         primitive_column::<Float64Type>(batch.column(18), ActaArray::Float64)?,
         primitive_column::<Int64Type>(batch.column(19), ActaArray::Int64)?,
     ];
-    Ok(ActaRecordBatch::try_new(Arc::clone(schema), columns, batch.num_rows())?)
+    Ok(ActaRecordBatch::try_new(
+        Arc::clone(schema),
+        columns,
+        batch.num_rows(),
+    )?)
 }
 
 fn timestamp_column(array: &dyn ArrowArray) -> Result<ActaArray, Box<dyn StdError>> {
@@ -419,12 +432,17 @@ where
     )))
 }
 
-fn string_column(array: &dyn ArrowArray, categorical: bool) -> Result<ActaArray, Box<dyn StdError>> {
+fn string_column(
+    array: &dyn ArrowArray,
+    categorical: bool,
+) -> Result<ActaArray, Box<dyn StdError>> {
     let typed = array
         .as_any()
         .downcast_ref::<StringArray>()
         .ok_or("string column has the wrong Arrow type")?;
-    let values = (0..typed.len()).map(|index| typed.value(index).to_owned()).collect();
+    let values = (0..typed.len())
+        .map(|index| typed.value(index).to_owned())
+        .collect();
     let values = ActaUtf8Array::new(values, validity(typed));
     Ok(if categorical {
         ActaArray::Categorical(values)
@@ -434,7 +452,11 @@ fn string_column(array: &dyn ArrowArray, categorical: bool) -> Result<ActaArray,
 }
 
 fn validity(array: &dyn ArrowArray) -> Option<Vec<bool>> {
-    (array.null_count() != 0).then(|| (0..array.len()).map(|index| array.is_valid(index)).collect())
+    (array.null_count() != 0).then(|| {
+        (0..array.len())
+            .map(|index| array.is_valid(index))
+            .collect()
+    })
 }
 
 fn write_csv_header(writer: &mut BufWriter<File>) -> Result<(), Box<dyn StdError>> {
@@ -442,7 +464,10 @@ fn write_csv_header(writer: &mut BufWriter<File>) -> Result<(), Box<dyn StdError
     Ok(())
 }
 
-fn write_csv_batch(writer: &mut BufWriter<File>, batch: &ArrowRecordBatch) -> Result<(), Box<dyn StdError>> {
+fn write_csv_batch(
+    writer: &mut BufWriter<File>,
+    batch: &ArrowRecordBatch,
+) -> Result<(), Box<dyn StdError>> {
     for row in 0..batch.num_rows() {
         for (index, array) in batch.columns().iter().enumerate() {
             if index != 0 {
@@ -455,24 +480,40 @@ fn write_csv_batch(writer: &mut BufWriter<File>, batch: &ArrowRecordBatch) -> Re
     Ok(())
 }
 
-fn write_csv_value(writer: &mut BufWriter<File>, array: &dyn ArrowArray, row: usize) -> Result<(), Box<dyn StdError>> {
+fn write_csv_value(
+    writer: &mut BufWriter<File>,
+    array: &dyn ArrowArray,
+    row: usize,
+) -> Result<(), Box<dyn StdError>> {
     if array.is_null(row) {
         return Ok(());
     }
     if let Some(values) = array.as_any().downcast_ref::<StringArray>() {
         let value = values.value(row);
-        if value.bytes().any(|byte| matches!(byte, b',' | b'"' | b'\n' | b'\r')) {
+        if value
+            .bytes()
+            .any(|byte| matches!(byte, b',' | b'"' | b'\n' | b'\r'))
+        {
             write!(writer, "\"{}\"", value.replace('"', "\"\""))?;
         } else {
             writer.write_all(value.as_bytes())?;
         }
         return Ok(());
     }
-    if let Some(values) = array.as_any().downcast_ref::<ArrowPrimitiveArray<TimestampMicrosecondType>>() {
+    if let Some(values) = array
+        .as_any()
+        .downcast_ref::<ArrowPrimitiveArray<TimestampMicrosecondType>>()
+    {
         write!(writer, "{}", values.value(row))?;
-    } else if let Some(values) = array.as_any().downcast_ref::<ArrowPrimitiveArray<Float64Type>>() {
+    } else if let Some(values) = array
+        .as_any()
+        .downcast_ref::<ArrowPrimitiveArray<Float64Type>>()
+    {
         write!(writer, "{}", values.value(row))?;
-    } else if let Some(values) = array.as_any().downcast_ref::<ArrowPrimitiveArray<Int64Type>>() {
+    } else if let Some(values) = array
+        .as_any()
+        .downcast_ref::<ArrowPrimitiveArray<Int64Type>>()
+    {
         write!(writer, "{}", values.value(row))?;
     } else {
         return Err(format!("unsupported CSV Arrow type {:?}", array.data_type()).into());
@@ -490,7 +531,9 @@ fn serde_json(metrics: &Metrics) -> String {
         metrics.format,
         metrics.rows,
         metrics.elapsed_seconds,
-        metrics.finish_seconds.map_or_else(|| "null".to_owned(), |value| format!("{value:.9}")),
+        metrics
+            .finish_seconds
+            .map_or_else(|| "null".to_owned(), |value| format!("{value:.9}")),
         optional(metrics.input_file_bytes),
         metrics.output_file_bytes,
         optional(metrics.arrow_buffer_bytes),
@@ -516,7 +559,9 @@ impl Args {
                 "--input" => input = Some(PathBuf::from(next(&mut arguments, "--input")?)),
                 "--output" => output = Some(PathBuf::from(next(&mut arguments, "--output")?)),
                 "--help" | "-h" => {
-                    println!("tsbs_iot_benchmark --mode write|read --format acta|parquet|csv --input PATH --output PATH");
+                    println!(
+                        "tsbs_iot_benchmark --mode write|read --format acta|parquet|csv --input PATH --output PATH"
+                    );
                     std::process::exit(0);
                 }
                 other => return Err(format!("unknown argument {other:?}").into()),
@@ -531,6 +576,11 @@ impl Args {
     }
 }
 
-fn next(arguments: &mut impl Iterator<Item = String>, flag: &str) -> Result<String, Box<dyn StdError>> {
-    arguments.next().ok_or_else(|| format!("{flag} needs a value").into())
+fn next(
+    arguments: &mut impl Iterator<Item = String>,
+    flag: &str,
+) -> Result<String, Box<dyn StdError>> {
+    arguments
+        .next()
+        .ok_or_else(|| format!("{flag} needs a value").into())
 }
