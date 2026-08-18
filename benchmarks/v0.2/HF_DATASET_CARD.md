@@ -89,3 +89,33 @@ repository contains the normalization and benchmark commands in
 The generated source stream is retained here so the exact normalized slice can
 be independently checked; it is not needed when reproducing from the pinned
 generator configuration.
+
+### `clickbench_hits/v0.2/`
+
+- `hits.parquet`: the ClickHouse ClickBench `hits`-compatible source artifact,
+  99,997,497 rows and 105 columns;
+- `hits.acta`: the recorded Acta v0.2 target produced by the writer-only
+  benchmark;
+- `hits_1m.csv`: a retained 1,000,000-row CSV sample used to estimate the full
+  CSV size;
+- `benchmark.json` and `benchmark.md`: Acta write/read metrics, source-size
+  baselines, CSV size extrapolation, checksums, and environment;
+- `README.md`: exact reproduction instructions and timing scope.
+
+The benchmark writes and reads Acta. The original Parquet is used as the size
+baseline, with Parquet throughput left unmeasured. Plain CSV throughput is also
+left unmeasured because the estimated complete CSV is approximately 75 GiB;
+its size is extrapolated from a 1,000,000-row sample.
+
+Recorded checksums and sizes:
+
+```text
+hits.parquet  14,779,976,446 bytes  a390f6cb782f6aaef278c72fc1dd86c4f30bc843ebab3c159e9bd4d45ddb079f
+hits.acta      8,955,412,072 bytes  44a3aaf872cb6cd0318a6537b104ff26214d2738e8c9e7821a7f1bebd10ebad3
+hits_1m.csv      801,653,457 bytes  8355799f72ed09d03af458e4456ad8e2057533c809ceebfbb91f316b2d27bea5
+```
+
+The ClickBench source and workload are documented in the official
+[`ClickHouse/ClickBench`](https://github.com/ClickHouse/ClickBench) repository.
+The published Parquet is retained as the reproduction input; the Acta
+repository contains the target writer and CSV-streaming harness.

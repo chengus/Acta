@@ -55,7 +55,7 @@ zstd = { version = "0.13", optional = true }
 [dev-dependencies]
 arrow-array = "56.2.1"
 arrow-schema = "56.2.1"
-parquet = { version = "56.2.1", default-features = false, features = ["arrow", "zstd"] }
+parquet = { version = "56.2.1", default-features = false, features = ["arrow", "snap", "zstd"] }
 
 [lib]
 name = "acta"
@@ -103,4 +103,9 @@ path = "benchmarks/stage7c/stage7c_benchmark.rs"
 [[example]]
 name = "tsbs_iot_benchmark"
 path = "benchmarks/v0.2/2_tsbs_iot_devops/tsbs_iot_benchmark.rs"
+required-features = ["parquet-example"]
+
+[[example]]
+name = "clickbench_hits_benchmark"
+path = "benchmarks/v0.2/3_clickbench_hits/clickbench_hits_benchmark.rs"
 required-features = ["parquet-example"]
