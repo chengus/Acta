@@ -10,6 +10,9 @@ tags:
   - compression
   - flight-data
   - market-data
+  - time-series
+  - tsbs
+  - telemetry
 size_categories:
   - 100M<n<1B
 ---
@@ -36,6 +39,16 @@ and measured results live in the
 - `deltas.acta`: fixed-schema Acta v0.2 output using fixed raw encoding and Zstandard level 1, 1,773,915,800 bytes;
 - `benchmark.json`: schemas, options, checksums, environment, and measured conversion result;
 - `conversion.stats.txt`: the converter's persisted beginning and final statistics.
+
+### `tsbs_iot/v0.2/`
+
+- `tsbs_iot_10m_source.txt`: the pinned-seed TSBS TimescaleDB-format source stream;
+- `tsbs_iot_10m.parquet`: the normalized 10,000,000-row, 20-column input used by all target writers;
+- `tsbs_iot_10m.acta`: Acta v0.2 output using adaptive encoding and Zstandard level 1;
+- `tsbs_iot_10m.parquet.target`: Parquet target-format output using 65,536-row groups and Zstandard level 1;
+- `tsbs_iot_10m.csv`: UTF-8 CSV target-format output with the same schema and rows;
+- `manifest.json`: TSBS revision, generator parameters, source and normalized-input checksums;
+- `benchmark.json` and `benchmark.md`: write/read metrics, output checksums, and environment.
 
 ## Checksums
 
@@ -64,3 +77,15 @@ must establish that their intended use is permitted.
 These artifacts are provided for software benchmarking and format validation.
 Users should review the source data's terms, attribution requirements, and
 suitability before redistribution or use.
+
+## TSBS provenance and reproduction
+
+The TSBS IoT artifact uses the official [`timescale/tsbs`](https://github.com/timescale/tsbs)
+source at revision `8323e59c74027b108f4ad5ec5d3e498b0101a02e`, the `iot` use case,
+TimescaleDB serialization, seed `123`, scale `550`, a 10-second interval, and
+the first 10,000,000 measurement rows from the generated stream. The Acta
+repository contains the normalization and benchmark commands in
+[`benchmarks/v0.2/2_tsbs_iot_devops/README.md`](https://github.com/chengus/Acta/tree/main/benchmarks/v0.2/2_tsbs_iot_devops).
+The generated source stream is retained here so the exact normalized slice can
+be independently checked; it is not needed when reproducing from the pinned
+generator configuration.

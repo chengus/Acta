@@ -1,0 +1,44 @@
+{
+  "dataset": "TSBS IoT",
+  "tsbs_repository": "https://github.com/timescale/tsbs",
+  "tsbs_revision": "8323e59c74027b108f4ad5ec5d3e498b0101a02e",
+  "tsbs_use_case": "iot",
+  "tsbs_format": "timescaledb",
+  "tsbs_seed": 123,
+  "tsbs_scale": 550,
+  "tsbs_log_interval": "10s",
+  "rows": 10000000,
+  "columns": 20,
+  "measurement_counts": {
+    "diagnostics": 4999938,
+    "readings": 5000062
+  },
+  "source": {
+    "file": "tsbs_iot_10m_source.txt",
+    "bytes": 2099877612,
+    "sha256": "c18ea0afd30a1db6529af417dc25e0dcf69aaf31ae0a2d540332e4d803b593c2"
+  },
+  "normalized_input": {
+    "file": "tsbs_iot_10m.parquet",
+    "bytes": 138723160,
+    "sha256": "5e1760b47976212c6edcaef78fe2180e50897d00f67a4e94dd412f125a795537",
+    "row_groups": 153
+  },
+  "outputs": {
+    "acta": {
+      "file": "tsbs_iot_10m.acta",
+      "bytes": 118508440,
+      "sha256": "9ca97fbb121c21a4561f74a626538e0518e0d028bfcc55a19dc7dbff59807d23"
+    },
+    "parquet": {
+      "file": "tsbs_iot_10m.parquet.target",
+      "bytes": 153331317,
+      "sha256": "c062ec900c48e2554f61495d7106791298b0f943a39f6082f5a0063710cb38ee"
+    },
+    "csv": {
+      "file": "tsbs_iot_10m.csv",
+      "bytes": 993362400,
+      "sha256": "bed124281d1fb22d69e202f6eeb778d6d731a61109fe09dc9d0ae0453a7a919a"
+    }
+  }
+}

@@ -99,3 +99,8 @@ path = "benchmarks/stage7b/stage7b_benchmark.rs"
 [[example]]
 name = "stage7c_benchmark"
 path = "benchmarks/stage7c/stage7c_benchmark.rs"
+
+[[example]]
+name = "tsbs_iot_benchmark"
+path = "benchmarks/v0.2/2_tsbs_iot_devops/tsbs_iot_benchmark.rs"
+required-features = ["parquet-example"]

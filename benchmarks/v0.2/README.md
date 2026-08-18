@@ -8,6 +8,7 @@ typed datasets and write actual Acta v0.2 files. They complement the historical
 | --- | --- | --- |
 | [0](0_bts_flight/README.md) | BTS flight records | Typed Parquet-to-Acta conversion, compression, throughput, checksums, and full-file validation |
 | [1](1_market_deltas/README.md) | Market data deltas | Fixed-schema, non-adaptive Parquet-to-Acta conversion at 239 million rows |
+| [2](2_tsbs_iot_devops/README.md) | TSBS IoT telemetry | 10-million-row Acta, Parquet, and CSV target-format write/read comparison |
 
 Each entry contains the exact acquisition, conversion, verification, and
 recorded-result instructions.

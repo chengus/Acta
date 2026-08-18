@@ -1,0 +1,4 @@
+*.acta
+*.csv
+*.parquet
+*.txt
